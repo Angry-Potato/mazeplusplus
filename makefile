@@ -30,7 +30,7 @@ src/%.o : src/%.cpp src/%.h
 	g++ $< -c -o $@ -Iinclude -Wall $(CFLAGS)
 
 unit_test : test
-	./test_mazepp
+	./bin/test_mazepp
 
 test : $(TESTOBJS)
 	g++ $(TESTOBJS) -o bin/test_mazepp -Wall $(LIBFLAGS) $(CFLAGS)
