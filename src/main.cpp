@@ -1,8 +1,4 @@
-#include "libtcod.hpp"
-
-void openGameWindow(int width, int height, const char* title) {
-  TCODConsole::initRoot(width, height, title, false);
-}
+#include "console_view.h"
 
 int main() {
   const char* title = "MazePlusPlus by Liam Humphreys";
@@ -11,8 +7,9 @@ int main() {
   int playerX = gameWindowWidth / 2;
   int playerY = gameWindowHeight / 2;
   bool escape = false;
+  ConsoleView view;
 
-  openGameWindow(gameWindowWidth, gameWindowHeight, title);
+  view.openGameWindow(gameWindowWidth, gameWindowHeight, title);
 
   do {
     TCOD_key_t key;
@@ -35,10 +32,10 @@ int main() {
         break;
       default:break;
     }
-    TCODConsole::root->clear();
+    view.beginRenderLoop();
     TCODConsole::root->putChar(playerX, playerY, 'a');
-    TCODConsole::flush();
-  } while (!escape && !TCODConsole::isWindowClosed());
+    view.endRenderLoop();
+  } while (!escape && !view.isClosed());
 
   return 0;
 }
