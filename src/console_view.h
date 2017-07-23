@@ -1,4 +1,3 @@
-
 class ConsoleView {
 public :
   bool isClosed() const;

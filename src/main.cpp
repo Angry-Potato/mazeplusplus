@@ -1,5 +1,6 @@
 #include "console_view.h"
-
+#include "input.h"
+#include "libtcod.hpp"
 int main() {
   const char* title = "MazePlusPlus by Liam Humphreys";
   int gameWindowWidth = 100;
@@ -8,26 +9,26 @@ int main() {
   int playerY = gameWindowHeight / 2;
   bool escape = false;
   ConsoleView view;
+  Input input;
 
   view.openGameWindow(gameWindowWidth, gameWindowHeight, title);
 
   do {
-    TCOD_key_t key;
-    TCODSystem::checkForEvent(TCOD_EVENT_KEY_PRESS, &key, NULL);
-    switch(key.vk) {
-      case TCODK_UP:
+    Action action = input.fetchInput();
+    switch(action) {
+      case MOVE_UP:
         playerY--;
         break;
-      case TCODK_DOWN:
+      case MOVE_DOWN:
         playerY++;
         break;
-      case TCODK_LEFT:
+      case MOVE_LEFT:
         playerX--;
         break;
-      case TCODK_RIGHT:
+      case MOVE_RIGHT:
         playerX++;
         break;
-      case TCODK_ESCAPE:
+      case EXIT:
         escape = true;
         break;
       default:break;
