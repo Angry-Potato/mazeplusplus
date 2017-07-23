@@ -1,7 +1,7 @@
-SOURCES=$(wildcard src/*.cpp)
-OBJS=$(SOURCES:.cpp=.o)
-TESTSOURCES=$(filter-out $(wildcard src/main*), $(wildcard test/*.cpp) $(wildcard src/*.cpp))
-TESTOBJS=$(TESTSOURCES:.cpp=.o)
+SOURCES := $(shell find src -name '*.cpp')
+OBJS := $(SOURCES:%.cpp=%.o)
+TESTSOURCES := $(filter-out $(wildcard src/main*), $(SOURCES) $(shell find test -name '*.cpp'))
+TESTOBJS := $(filter-out $(wildcard src/main*), $(TESTSOURCES:%.cpp=%.o))
 DFLAG?=debug
 
 ifeq ($(shell sh -c 'uname -s'),Linux)
@@ -26,7 +26,7 @@ mazepp : $(OBJS) unit_test
 clean :
 	rm -f $(OBJS) $(TESTOBJS)
 
-src/%.o : src/%.cpp src/%.h
+%.o : %.cpp %.h
 	g++ $< -c -o $@ -Iinclude -Wall $(CFLAGS)
 
 unit_test : test
@@ -34,9 +34,6 @@ unit_test : test
 
 test : $(TESTOBJS)
 	g++ $(TESTOBJS) -o bin/test_mazepp -Wall $(LIBFLAGS) $(CFLAGS)
-
-test/%.o : test/%.cpp
-	g++ $< -c -o $@ -Iinclude -Wall $(CFLAGS)
 
 dockermazepp : dockercp
 	make dockerclean

@@ -1,4 +1,4 @@
-#include "console_view.h"
+#include "console/console_display.h"
 #include "input.h"
 #include "player.h"
 #include "actions.h"
@@ -11,7 +11,7 @@ int main() {
   int playerY = gameWindowHeight / 2;
   Player player(playerX, playerY);
   Actions actions;
-  ConsoleView view;
+  ConsoleDisplay view;
   Input input;
   Action action;
   view.openGameWindow(gameWindowWidth, gameWindowHeight, title);
@@ -20,6 +20,7 @@ int main() {
     action = input.fetchInput();
     actions.perform(action, &player);
     view.beginRenderLoop();
+    view.render();
     TCODConsole::root->putChar(player.position.X, player.position.Y, 'a');
     view.endRenderLoop();
   } while (action != EXIT && !view.isClosed());

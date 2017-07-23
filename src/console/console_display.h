@@ -1,4 +1,4 @@
-class ConsoleView {
+class ConsoleDisplay {
 public :
   bool isClosed() const;
 
