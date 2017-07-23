@@ -15,7 +15,8 @@ void ConsoleDisplay::beginRenderLoop() {
 }
 
 void ConsoleDisplay::render(int id, int x, int y) {
-  TCODConsole::root->putChar(x, y, PlayerView::forId(id));
+  TCODConsole::root->setChar(x, y, PlayerView::characterCode(id));
+  TCODConsole::root->setCharForeground(x, y, PlayerView::colour(id));
 }
 
 void ConsoleDisplay::endRenderLoop() {

@@ -1,4 +1,6 @@
+class TCODColor;
 class PlayerView {
 public :
-  static int forId(int id);
+  static int characterCode(int playerId);
+  static TCODColor colour(int playerId);
 };
