@@ -24,5 +24,5 @@ map<int, Point> ActionMap::actions = ActionMap::create_map();
 void Actions::perform(Action action, Player* player) const {
   Movement mover;
   Point movement = ActionMap::actions[(int)action];
-  mover.move(&(player->position), &movement);
+  mover.move(player->position, &movement);
 }

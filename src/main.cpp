@@ -3,13 +3,14 @@
 #include "player.h"
 #include "actions.h"
 #include "libtcod.hpp"
+#include <iostream>
 int main() {
   const char* title = "MazePlusPlus by Liam Humphreys";
   int gameWindowWidth = 100;
   int gameWindowHeight = 74;
   int playerX = gameWindowWidth / 2;
   int playerY = gameWindowHeight / 2;
-  Player player(playerX, playerY);
+  Player player(1, playerX, playerY);
   Actions actions;
   ConsoleDisplay view;
   Input input;
@@ -20,8 +21,7 @@ int main() {
     action = input.fetchInput();
     actions.perform(action, &player);
     view.beginRenderLoop();
-    view.render();
-    TCODConsole::root->putChar(player.position.X, player.position.Y, 'a');
+    view.render(player.id, player.position->X, player.position->Y);
     view.endRenderLoop();
   } while (action != EXIT && !view.isClosed());
 

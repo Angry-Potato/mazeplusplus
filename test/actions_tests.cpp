@@ -12,8 +12,8 @@ TEST_SUITE("Actions") {
 
     sut.perform(move_up, &player);
 
-    CHECK(player.position.X == initialX);
-    CHECK(player.position.Y < initialY);
+    CHECK(player.position->X == initialX);
+    CHECK(player.position->Y < initialY);
   }
   TEST_CASE("MOVE_DOWN moves the player down") {
     Actions sut;
@@ -24,8 +24,8 @@ TEST_SUITE("Actions") {
 
     sut.perform(move_down, &player);
 
-    CHECK(player.position.X == initialX);
-    CHECK(player.position.Y > initialY);
+    CHECK(player.position->X == initialX);
+    CHECK(player.position->Y > initialY);
   }
   TEST_CASE("MOVE_LEFT moves the player left") {
     Actions sut;
@@ -36,8 +36,8 @@ TEST_SUITE("Actions") {
 
     sut.perform(move_left, &player);
 
-    CHECK(player.position.X < initialX);
-    CHECK(player.position.Y == initialY);
+    CHECK(player.position->X < initialX);
+    CHECK(player.position->Y == initialY);
   }
   TEST_CASE("MOVE_RIGHT moves the player right") {
     Actions sut;
@@ -48,7 +48,7 @@ TEST_SUITE("Actions") {
 
     sut.perform(move_right, &player);
 
-    CHECK(player.position.X > initialX);
-    CHECK(player.position.Y == initialY);
+    CHECK(player.position->X > initialX);
+    CHECK(player.position->Y == initialY);
   }
 }

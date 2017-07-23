@@ -1,7 +1,16 @@
 #include "point.h"
 
 struct Player {
-   Point position;
-   Point previousPosition;
-   Player(int x = 0, int y = 0) : position(x, y), previousPosition(x, y) {}
+  int id;
+  Point* position;
+  Point* previousPosition;
+  Player(int playerId = 0, int x = 0, int y = 0) {
+    id = playerId;
+    position = new Point(x, y);
+    previousPosition = new Point(x, y);
+  }
+  ~Player() {
+    delete position;
+    delete previousPosition;
+  }
 };
