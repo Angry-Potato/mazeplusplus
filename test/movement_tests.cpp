@@ -3,8 +3,8 @@
 #include "../src/movement.h"
 
 TEST_SUITE("Movement") {
-  Movement sut;
   TEST_CASE("move increments the given point by the given amount") {
+    Movement sut;
     int pointX = 21;
     int pointY = 13;
     Point point(pointX, pointY);

@@ -7,36 +7,18 @@ int main() {
   int gameWindowHeight = 74;
   int playerX = gameWindowWidth / 2;
   int playerY = gameWindowHeight / 2;
-  bool escape = false;
   ConsoleView view;
   Input input;
-
+  Action action;
   view.openGameWindow(gameWindowWidth, gameWindowHeight, title);
 
   do {
-    Action action = input.fetchInput();
-    switch(action) {
-      case MOVE_UP:
-        playerY--;
-        break;
-      case MOVE_DOWN:
-        playerY++;
-        break;
-      case MOVE_LEFT:
-        playerX--;
-        break;
-      case MOVE_RIGHT:
-        playerX++;
-        break;
-      case EXIT:
-        escape = true;
-        break;
-      default:break;
-    }
+    action = input.fetchInput();
     view.beginRenderLoop();
     TCODConsole::root->putChar(playerX, playerY, 'a');
     view.endRenderLoop();
-  } while (!escape && !view.isClosed());
+    action = NONE;
+  } while (action != EXIT && !view.isClosed());
 
   return 0;
 }
