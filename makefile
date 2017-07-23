@@ -30,7 +30,7 @@ clean :
 	g++ $< -c -o $@ -Iinclude -Wall $(CFLAGS)
 
 unit_test : test
-	./bin/test_mazepp
+	./bin/test_mazepp -fc
 
 test : $(TESTOBJS)
 	g++ $(TESTOBJS) -o bin/test_mazepp -Wall $(LIBFLAGS) $(CFLAGS)

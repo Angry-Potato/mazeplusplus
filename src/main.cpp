@@ -2,8 +2,7 @@
 #include "input.h"
 #include "player.h"
 #include "actions.h"
-#include "libtcod.hpp"
-#include <iostream>
+
 int main() {
   const char* title = "MazePlusPlus by Liam Humphreys";
   int gameWindowWidth = 100;
