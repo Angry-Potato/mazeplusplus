@@ -1,5 +1,4 @@
-enum PlayerView {
-  NONE = '?',
-  ONE = 'a',
-  TWO = 'b'
+class PlayerView {
+public :
+  static int forId(int id);
 };
