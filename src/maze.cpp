@@ -1,7 +1,7 @@
 #include "maze.h"
 #include "tile.h"
 
-Maze::Maze(int* tileData, int rows, int cols) {
+Maze::Maze(const int* tileData, int rows, int cols) {
   height = rows;
   width = cols;
   tiles=new Tile[width*height];

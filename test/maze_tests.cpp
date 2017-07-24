@@ -4,7 +4,7 @@
 
 TEST_SUITE("Maze") {
   TEST_CASE("can initialise with array of free tiles") {
-    int tileData[] = {
+    const int tileData[] = {
       0, 0, 0, 0, 0
     };
     Maze sut(tileData, 1, 5);
@@ -12,7 +12,7 @@ TEST_SUITE("Maze") {
     CHECK(sut.isFree(0,0) == true);
   }
   TEST_CASE("marks tiles as not free correctly") {
-    int tileData[] = {
+    const int tileData[] = {
       1, 1, 1, 1, 1,
       1, 0, 0, 0, 1,
       1, 1, 1, 1, 1

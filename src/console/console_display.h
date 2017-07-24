@@ -1,3 +1,5 @@
+#include "../tile.h"
+
 class ConsoleDisplay {
 public :
   bool isClosed() const;
@@ -6,5 +8,6 @@ public :
 
   void beginRenderLoop();
   void render(int id, int x, int y);
+  void renderTile(TileType type, int x, int y);
   void endRenderLoop();
 };

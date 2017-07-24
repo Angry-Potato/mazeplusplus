@@ -5,7 +5,7 @@ public :
   int height;
   int width;
 
-  Maze(int* tileData, int rows, int cols);
+  Maze(const int* tileData, int rows, int cols);
   ~Maze();
 
   bool isFree(int x, int y) const;
