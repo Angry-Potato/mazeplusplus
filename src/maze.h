@@ -1,3 +1,6 @@
+#ifndef MAZE_H
+#define MAZE_H
+
 #include "tile.h"
 
 class Maze {
@@ -13,3 +16,4 @@ public :
 
   Tile* tiles;
 };
+#endif

@@ -1,3 +1,6 @@
+#ifndef PLAYER_H
+#define PLAYER_H
+
 #include "point.h"
 
 struct Player {
@@ -14,3 +17,4 @@ struct Player {
     delete previousPosition;
   }
 };
+#endif

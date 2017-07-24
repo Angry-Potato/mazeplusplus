@@ -1,3 +1,6 @@
+#ifndef CONSOLE_DISPLAY_H
+#define CONSOLE_DISPLAY_H
+
 #include "../tile.h"
 
 class ConsoleDisplay {
@@ -11,3 +14,4 @@ public :
   void renderTile(TileType type, int x, int y);
   void endRenderLoop();
 };
+#endif
