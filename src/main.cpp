@@ -7,11 +7,9 @@
 
 int main() {
   const char* title = "MazePlusPlus by Liam Humphreys";
-  int gameWindowWidth = 100;
-  int gameWindowHeight = 74;
-  int playerX = gameWindowWidth / 2;
-  int playerY = gameWindowHeight / 2;
-  Player player(1, playerX, playerY);
+  int gameWindowWidth = 200;
+  int gameWindowHeight = 150;
+  Player player(1, 1, 1);
   Actions actions;
   ConsoleDisplay view;
   Input input;
@@ -19,17 +17,18 @@ int main() {
   Maze maze(Levels::one, 5, 5);
   view.openGameWindow(gameWindowWidth, gameWindowHeight, title);
 
+  int originX = (gameWindowWidth / 2) - (maze.width / 2);
+  int originY = (gameWindowHeight / 2) - (maze.height / 2);
   do {
     action = input.fetchInput();
     actions.perform(action, &player);
     view.beginRenderLoop();
-    view.render(player.id, player.position->X, player.position->Y);
-
     for (int x=0; x < maze.width; x++) {
       for (int y=0; y < maze.height; y++) {
-        view.renderTile(maze.tile(x, y), x, y);
+        view.renderTile(maze.tile(x, y), x + originX, y + originY);
       }
     }
+    view.renderPlayer(player.id, player.position->X + originX, player.position->Y + originY);
     view.endRenderLoop();
   } while (action != EXIT && !view.isClosed());
 
