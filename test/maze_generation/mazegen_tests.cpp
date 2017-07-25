@@ -67,4 +67,35 @@ TEST_SUITE("Mazegen") {
     CHECK(sut.cellNeighbour(cells, width, height, cell->getColumn(), cell->getRow(), Mazegen::EAST) == (Cell*)NULL);
     CHECK(sut.cellNeighbour(cells, width, height, cell->getColumn(), cell->getRow(), Mazegen::WEST) == (Cell*)NULL);
   }
+  TEST_CASE("isDirAvailable returns false when out of bounds") {
+    Mazegen sut;
+    int width = 1;
+    int height = 1;
+    Cell cells[width*height];
+    sut.prepMaze(cells, width, height);
+
+    Cell* cell = &(cells[0]);
+
+    CHECK(sut.isDirAvailable(cells, width, height, cell->getColumn(), cell->getRow(), Mazegen::NORTH) == false);
+    CHECK(sut.isDirAvailable(cells, width, height, cell->getColumn(), cell->getRow(), Mazegen::SOUTH) == false);
+    CHECK(sut.isDirAvailable(cells, width, height, cell->getColumn(), cell->getRow(), Mazegen::EAST) == false);
+    CHECK(sut.isDirAvailable(cells, width, height, cell->getColumn(), cell->getRow(), Mazegen::WEST) == false);
+  }
+  TEST_CASE("isDirAvailable returns true when dir available") {
+    Mazegen sut;
+    int width = 2;
+    int height = 2;
+    Cell cells[width*height];
+    sut.prepMaze(cells, width, height);
+
+    Cell* topLeft = &(cells[0]);
+    Cell* topRight = &(cells[1]);
+    Cell* bottomLeft = &(cells[2]);
+    Cell* bottomRight = &(cells[3]);
+
+    CHECK(sut.isDirAvailable(cells, width, height, bottomLeft->getColumn(), bottomLeft->getRow(), Mazegen::NORTH) == true);
+    CHECK(sut.isDirAvailable(cells, width, height, topLeft->getColumn(), topLeft->getRow(), Mazegen::SOUTH) == true);
+    CHECK(sut.isDirAvailable(cells, width, height, topLeft->getColumn(), topLeft->getRow(), Mazegen::EAST) == true);
+    CHECK(sut.isDirAvailable(cells, width, height, topRight->getColumn(), topRight->getRow(), Mazegen::WEST) == true);
+  }
 }

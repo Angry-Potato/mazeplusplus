@@ -27,6 +27,11 @@ Cell* Mazegen::cellNeighbour(Cell* cells, int width, int height, int x, int y, i
   }
 }
 
+bool Mazegen::isDirAvailable(Cell* cells, int width, int height, int x, int y, int dir) {
+  Cell* neighbour = cellNeighbour(cells, width, height, x, y, dir);
+  return neighbour == (Cell*)NULL ? false : neighbour->getWalls()==Cell::WALL_ALL;
+}
+
 void Mazegen::gen(int width, int height) {
   srand(time(NULL));
 
@@ -45,13 +50,13 @@ void Mazegen::gen(int width, int height) {
     availableDirs.clear();
 
 
-    if(curX > 0 && cellNeighbour(maze, width, height, curX, curY, WEST)->getWalls()==Cell::WALL_ALL)
+    if(isDirAvailable(maze, width, height, curX, curY, WEST))
       availableDirs.push_back(WEST);
-    if(curX<width-1 && cellNeighbour(maze, width, height, curX, curY, EAST)->getWalls()==Cell::WALL_ALL)
+    if(isDirAvailable(maze, width, height, curX, curY, EAST))
       availableDirs.push_back(EAST);
-    if(curY > 0 && cellNeighbour(maze, width, height, curX, curY, NORTH)->getWalls()==Cell::WALL_ALL)
+    if(isDirAvailable(maze, width, height, curX, curY, NORTH))
       availableDirs.push_back(NORTH);
-    if(curY<height-1 && cellNeighbour(maze, width, height, curX, curY, SOUTH)->getWalls()==Cell::WALL_ALL)
+    if(isDirAvailable(maze, width, height, curX, curY, SOUTH))
       availableDirs.push_back(SOUTH);
 
     if(availableDirs.empty()==false) {
