@@ -70,14 +70,13 @@ void Mazegen::gen(int width, int height) {
 
   while(!trail.empty()) {
     availableDirs.clear();
-    int curX = trail.back().X;
-    int curY = trail.back().Y;
+    Cell* current = &(trail.back());
 
-    setAvailableDirs(availableDirs, maze, curX, curY, width, height);
+    setAvailableDirs(availableDirs, maze, current->X, current->Y, width, height);
 
     if(!availableDirs.empty()) {
       int randDir = availableDirs[rand() % availableDirs.size()];
-      Cell* p = forgePath(maze, curX, curY, width, height, randDir);
+      Cell* p = forgePath(maze, current->X, current->Y, width, height, randDir);
       trail.push_back(*p);
     }
     else {
