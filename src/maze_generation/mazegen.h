@@ -1,6 +1,8 @@
 #ifndef MAZEGEN_H
 #define MAZEGEN_H
 
+#include <vector>
+
 class Cell;
 class Mazegen {
 public :
@@ -11,6 +13,7 @@ public :
   void prepMaze(Cell* cells, int width, int height);
   Cell* cellNeighbour(Cell* cells, int width, int height, int x, int y, int dir) const;
   bool isDirAvailable(Cell* cells, int width, int height, int x, int y, int dir) const;
-  void forgePath(Cell* cells, int x, int y, int width, int height, int dir);
+  Cell* forgePath(Cell* cells, int x, int y, int width, int height, int dir);
+  void setAvailableDirs(std::vector<DIR> &availableDirs, Cell* cells, int x, int y, int width, int height);
 };
 #endif

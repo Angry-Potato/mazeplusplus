@@ -1,6 +1,8 @@
 #include "../doctest.h"
 #include "../../src/maze_generation/mazegen.h"
 #include "../../src/maze_generation/cell.h"
+#include <algorithm>
+#include <vector>
 
 TEST_SUITE("Mazegen") {
   TEST_CASE("prepMaze sets all cells position correctly") {
@@ -98,6 +100,26 @@ TEST_SUITE("Mazegen") {
     CHECK(sut.isDirAvailable(cells, width, height, topLeft->getColumn(), topLeft->getRow(), Mazegen::EAST) == true);
     CHECK(sut.isDirAvailable(cells, width, height, topRight->getColumn(), topRight->getRow(), Mazegen::WEST) == true);
   }
+  TEST_CASE("isDirAvailable returns false when dir not available") {
+    Mazegen sut;
+    int width = 2;
+    int height = 2;
+    Cell cells[width*height];
+    sut.prepMaze(cells, width, height);
+
+    Cell* topLeft = &(cells[0]);
+    Cell* topRight = &(cells[1]);
+    Cell* bottomLeft = &(cells[2]);
+    Cell* bottomRight = &(cells[3]);
+
+    sut.forgePath(cells, bottomLeft->getColumn(), bottomLeft->getRow(), width, height, Mazegen::NORTH);
+    sut.forgePath(cells, bottomRight->getColumn(), bottomRight->getRow(), width, height, Mazegen::NORTH);
+
+    CHECK(sut.isDirAvailable(cells, width, height, bottomLeft->getColumn(), bottomLeft->getRow(), Mazegen::NORTH) == false);
+    CHECK(sut.isDirAvailable(cells, width, height, topLeft->getColumn(), topLeft->getRow(), Mazegen::SOUTH) == false);
+    CHECK(sut.isDirAvailable(cells, width, height, topLeft->getColumn(), topLeft->getRow(), Mazegen::EAST) == false);
+    CHECK(sut.isDirAvailable(cells, width, height, topRight->getColumn(), topRight->getRow(), Mazegen::WEST) == false);
+  }
   TEST_CASE("forgePath removes correct walls from both cells in vertical forge") {
     Mazegen sut;
     int width = 1;
@@ -137,5 +159,25 @@ TEST_SUITE("Mazegen") {
     CHECK((topRight->getWalls() & Mazegen::NORTH) == Mazegen::NORTH);
     CHECK((topRight->getWalls() & Mazegen::EAST) == Mazegen::EAST);
     CHECK((topRight->getWalls() & Mazegen::WEST) != Mazegen::WEST);
+  }
+  TEST_CASE("setAvailableDirs sets correct directions as available") {
+    Mazegen sut;
+    int width = 2;
+    int height = 2;
+    Cell cells[width*height];
+    sut.prepMaze(cells, width, height);
+
+    Cell* topLeft = &(cells[0]);
+    Cell* topRight = &(cells[1]);
+    Cell* bottomLeft = &(cells[2]);
+    Cell* bottomRight = &(cells[3]);
+
+    sut.forgePath(cells, topLeft->getColumn(), topLeft->getRow(), width, height, Mazegen::EAST);
+
+    std::vector<Mazegen::DIR> availableDirs;
+    sut.setAvailableDirs(availableDirs, cells, topLeft->getColumn(), topLeft->getRow(), width, height);
+
+    CHECK((std::find(availableDirs.begin(), availableDirs.end(), Mazegen::EAST) != availableDirs.end()) != true);
+    CHECK((std::find(availableDirs.begin(), availableDirs.end(), Mazegen::SOUTH) != availableDirs.end()) == true);
   }
 }

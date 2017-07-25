@@ -29,7 +29,7 @@ Cell* Mazegen::cellNeighbour(Cell* cells, int width, int height, int x, int y, i
 
 bool Mazegen::isDirAvailable(Cell* cells, int width, int height, int x, int y, int dir) const {
   Cell* neighbour = cellNeighbour(cells, width, height, x, y, dir);
-  return neighbour == (Cell*)NULL ? false : neighbour->getWalls()==Cell::WALL_ALL;
+  return neighbour == (Cell*)NULL ? false : neighbour->getWalls() == Cell::WALL_ALL;
 }
 
 int Mazegen::opposite(int dir) const {
@@ -42,9 +42,19 @@ int Mazegen::opposite(int dir) const {
   }
 }
 
-void Mazegen::forgePath(Cell* cells, int x, int y, int width, int height, int dir) {
+Cell* Mazegen::forgePath(Cell* cells, int x, int y, int width, int height, int dir) {
   cells[locate(x, y, width)].removeWall(dir);
-  cellNeighbour(cells, width, height, x, y, dir)->removeWall(opposite(dir));
+  Cell* neighbour = cellNeighbour(cells, width, height, x, y, dir);
+  neighbour->removeWall(opposite(dir));
+  return neighbour;
+}
+
+void Mazegen::setAvailableDirs(vector<DIR> &availableDirs, Cell* cells, int x, int y, int width, int height) {
+  DIR directions[4] = { NORTH, SOUTH, EAST, WEST };
+  for (size_t i = 0; i < 4; i++) {
+    if(isDirAvailable(cells, width, height, x, y, directions[i]))
+      availableDirs.push_back(directions[i]);
+  }
 }
 
 void Mazegen::gen(int width, int height) {
@@ -56,48 +66,22 @@ void Mazegen::gen(int width, int height) {
 
   prepMaze(maze, width, height);
 
-  int curY = rand() % height;
-  int curX = rand() % width;
-
-  trail.push_back(maze[locate(curX, curY, width)]);
+  trail.push_back(maze[locate(1, 1, width)]);
 
   while(!trail.empty()) {
     availableDirs.clear();
+    int curX = trail.back().getColumn();
+    int curY = trail.back().getRow();
 
-    if(isDirAvailable(maze, width, height, curX, curY, WEST))
-      availableDirs.push_back(WEST);
-    if(isDirAvailable(maze, width, height, curX, curY, EAST))
-      availableDirs.push_back(EAST);
-    if(isDirAvailable(maze, width, height, curX, curY, NORTH))
-      availableDirs.push_back(NORTH);
-    if(isDirAvailable(maze, width, height, curX, curY, SOUTH))
-      availableDirs.push_back(SOUTH);
+    setAvailableDirs(availableDirs, maze, curX, curY, width, height);
 
     if(!availableDirs.empty()) {
-      switch(availableDirs[rand() % availableDirs.size()]) {
-        case NORTH:
-          forgePath(maze, curX, curY--, width, height, NORTH);
-          break;
-        case SOUTH:
-          forgePath(maze, curX, curY++, width, height, SOUTH);
-          break;
-        case EAST:
-          forgePath(maze, curX++, curY, width, height, EAST);
-          break;
-        case WEST:
-          forgePath(maze, curX--, curY, width, height, WEST);
-          break;
-      }
-
-      trail.push_back(maze[locate(curX, curY, width)]);
+      int randDir = availableDirs[rand() % availableDirs.size()];
+      Cell* p = forgePath(maze, curX, curY, width, height, randDir);
+      trail.push_back(*p);
     }
     else {
       trail.pop_back();
-
-      if(!trail.empty()) {
-        curY=trail.back().getRow();
-        curX=trail.back().getColumn();
-      }
     }
   }
 
