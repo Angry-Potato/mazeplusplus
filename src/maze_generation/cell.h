@@ -21,6 +21,9 @@ public:
     int getWalls() const;
     void setWalls(const int w);
     void setPosition(const int y, const int x);
+    inline bool hasWall(const int dir) const {
+      return (walls & dir) == dir;
+    };
     friend std::ostream& operator<<(std::ostream& strm, const Cell& c);
 };
 

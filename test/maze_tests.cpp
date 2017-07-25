@@ -7,7 +7,7 @@ TEST_SUITE("Maze") {
     const int tileData[] = {
       0, 0, 0, 0, 0
     };
-    Maze sut(tileData, 1, 5);
+    Maze sut(tileData, 5, 1);
 
     CHECK(sut.isFree(0,0) == true);
   }
@@ -17,7 +17,7 @@ TEST_SUITE("Maze") {
       1, 0, 0, 0, 1,
       1, 1, 1, 1, 1
     };
-    Maze sut(tileData, 3, 5);
+    Maze sut(tileData, 5, 3);
 
     CHECK(sut.isFree(0,0) == false);
     CHECK(sut.isFree(1,1) == true);

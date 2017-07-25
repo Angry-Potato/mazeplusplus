@@ -2,10 +2,10 @@
 #include "input.h"
 #include "player.h"
 #include "actions.h"
-#include "levels.h"
 #include "maze.h"
 #include "maze_generation/cell.h"
 #include "maze_generation/mazegen.h"
+#include "maze_generation/tiled_maze_factory.h"
 
 #include <iostream>
 
@@ -20,12 +20,11 @@ int main() {
   ConsoleDisplay view;
   Input input;
   Action action;
-  Maze maze(Levels::one, 10, 10);
   view.openGameWindow(gameWindowWidth, gameWindowHeight, title);
 
   Mazegen genner;
   int width = 20;
-  int height = 10;
+  int height = 20;
   Cell cells[width*height];
   genner.generate(width, height, cells);
 
@@ -41,6 +40,18 @@ int main() {
     }
     cout << "|\n";
   }
+
+  TiledMazeFactory tmf;
+  int tileCount = tmf.tileCountForMazeOfSize(width, height);
+  int tilesWide = tmf.tileCountForCellDimension(width);
+  int tilesTall = tmf.tileCountForCellDimension(height);
+  int tileData[tileCount];
+  tmf.generate(width, height, tileData);
+  Maze maze(tileData, tilesWide, tilesTall);
+
+
+
+
   int originX = (gameWindowWidth / 2) - (maze.width / 2);
   int originY = (gameWindowHeight / 2) - (maze.height / 2);
   do {
