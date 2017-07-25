@@ -6,16 +6,13 @@
 
 
 
-void Cell::init(const int r, const int c, const int walls, const bool v) {
+void Cell::init(const int r, const int c, const int walls) {
     setPosition(r, c);
     setWalls(walls);
-    setVisited(v);
 }
 Cell::Cell() { init(0, 0, 0); }
 Cell::Cell(const int r, const int c) { init(r, c, 0); }
 Cell::Cell(const int r, const int c, const int walls) { init(r, c, walls); }
-bool Cell::visited() const { return visit; }
-void Cell::setVisited(const bool v) { visit = v; }
 int Cell::getRow() const { return row; }
 int Cell::getColumn() const { return col; }
 void Cell::removeWall(const int w) {

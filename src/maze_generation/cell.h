@@ -8,9 +8,8 @@ class Cell {
 private:
     int row;
     int col;
-    bool visit;
     int walls;
-    void init(const int r, const int c, const int walls, const bool v = false);
+    void init(const int r, const int c, const int walls);
 public:
     enum WALL { WALL_NORTH = 0x0008, WALL_EAST = 0x0004,
         WALL_SOUTH  = 0x0002, WALL_WEST = 0x0001,
@@ -18,8 +17,6 @@ public:
     Cell();
     Cell(const int r, const int c);
     Cell(const int r, const int c, const int stat);
-    bool visited() const;
-    void setVisited(const bool v = true);
     int getRow() const;
     int getColumn() const;
     void removeWall(const int w);
@@ -29,4 +26,4 @@ public:
     friend std::ostream& operator<<(std::ostream& strm, const Cell& c);
 };
 
-#endif 
+#endif
