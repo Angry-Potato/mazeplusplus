@@ -1,12 +1,15 @@
 #include "mazegen.h"
 #include "cell.h"
-#include <iostream>
 #include <stdlib.h>
 #include <time.h>
 #include <vector>
 
-using std::cout;
 using std::vector;
+
+void Mazegen::generate(int width, int height, Cell* cells) {
+  prepMaze(cells, width, height);
+  genMaze(cells, width, height);
+}
 
 void Mazegen::prepMaze(Cell* cells, int width, int height) {
   for (int y = 0; y < height; y++) {
@@ -75,27 +78,5 @@ void Mazegen::setAvailableDirs(vector<DIR> &availableDirs, Cell* cells, int x, i
   for (size_t i = 0; i < 4; i++) {
     if(isDirAvailable(cells, width, height, x, y, directions[i]))
       availableDirs.push_back(directions[i]);
-  }
-}
-
-void Mazegen::gen(int width, int height) {
-  srand(time(NULL));
-
-  Cell maze[height*width];
-
-  prepMaze(maze, width, height);
-  genMaze(maze, width, height);
-
-  int r, c;
-  // for (c=0; c<width; c++) {
-  //   if (c == 0) cout << " _";
-  //   else cout << "__";
-  // }
-  cout << '\n';
-  for (r=0; r<height; r++) {
-    for (c=0; c<width; c++) {
-      cout << maze[locate(c, r, width)];
-    }
-    cout << "|\n";
   }
 }
