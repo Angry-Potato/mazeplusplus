@@ -8,8 +8,6 @@
 using std::cout;
 using std::vector;
 
-enum DIR { NORTH, SOUTH, EAST, WEST };
-
 void Mazegen::prepMaze(Cell* cells, int width, int height) {
   for (int y = 0; y < height; y++) {
     for (int x = 0; x < width; x++) {
@@ -19,35 +17,42 @@ void Mazegen::prepMaze(Cell* cells, int width, int height) {
   }
 }
 
+Cell* Mazegen::cellNeighbour(Cell* cells, int width, int height, int x, int y, int dir) {
+  switch (dir) {
+    case NORTH: return y > 0        ? &(cells[x+(y-1)*width]) : NULL;
+    case SOUTH: return y < height-1 ? &(cells[x+(y+1)*width]) : NULL;
+    case EAST:  return x < width-1  ? &(cells[(x+1)+y*width]) : NULL;
+    case WEST:  return x > 0        ? &(cells[(x-1)+y*width]) : NULL;
+    default:    return NULL;
+  }
+}
+
 void Mazegen::gen(int width, int height) {
   srand(time(NULL));
 
   Cell maze[height*width];
+  vector<Cell> trail;
+  vector<DIR> availableDirs;
 
   prepMaze(maze, width, height);
 
   int curY = rand() % height;
   int curX = rand() % width;
 
-  vector<Cell> trail;
-  vector<DIR> availableDirs;
   trail.push_back(maze[curX+curY*width]);
 
   while(trail.empty()==false) {
     availableDirs.clear();
 
-    if(curX)
-      if(maze[(curX-1)+curY*width].getWalls()==Cell::WALL_ALL)
-        availableDirs.push_back(WEST);
-    if(curX<width-1)
-      if(maze[(curX+1)+curY*width].getWalls()==Cell::WALL_ALL)
-        availableDirs.push_back(EAST);
-    if(curY)
-      if(maze[curX+(curY-1)*width].getWalls()==Cell::WALL_ALL)
-        availableDirs.push_back(NORTH);
-    if(curY<height-1)
-      if(maze[curX+(curY+1)*width].getWalls()==Cell::WALL_ALL)
-        availableDirs.push_back(SOUTH);
+
+    if(curX > 0 && cellNeighbour(maze, width, height, curX, curY, WEST)->getWalls()==Cell::WALL_ALL)
+      availableDirs.push_back(WEST);
+    if(curX<width-1 && cellNeighbour(maze, width, height, curX, curY, EAST)->getWalls()==Cell::WALL_ALL)
+      availableDirs.push_back(EAST);
+    if(curY > 0 && cellNeighbour(maze, width, height, curX, curY, NORTH)->getWalls()==Cell::WALL_ALL)
+      availableDirs.push_back(NORTH);
+    if(curY<height-1 && cellNeighbour(maze, width, height, curX, curY, SOUTH)->getWalls()==Cell::WALL_ALL)
+      availableDirs.push_back(SOUTH);
 
     if(availableDirs.empty()==false) {
       switch(availableDirs[rand() % availableDirs.size()]) {

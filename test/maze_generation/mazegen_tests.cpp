@@ -32,4 +32,39 @@ TEST_SUITE("Mazegen") {
       }
     }
   }
+  TEST_CASE("cellNeighbour gets the correct cell") {
+    Mazegen sut;
+    int width = 2;
+    int height = 2;
+    Cell cells[width*height];
+    sut.prepMaze(cells, width, height);
+
+    Cell* topLeft = &(cells[0]);
+    Cell* topRight = &(cells[1]);
+    Cell* bottomLeft = &(cells[2]);
+    Cell* bottomRight = &(cells[3]);
+
+    CHECK(topLeft->getColumn() == sut.cellNeighbour(cells, width, height, bottomLeft->getColumn(), bottomLeft->getRow(), Mazegen::NORTH)->getColumn());
+    CHECK(topLeft->getRow() == sut.cellNeighbour(cells, width, height, bottomLeft->getColumn(), bottomLeft->getRow(), Mazegen::NORTH)->getRow());
+    CHECK(bottomLeft->getColumn() == sut.cellNeighbour(cells, width, height, topLeft->getColumn(), topLeft->getRow(), Mazegen::SOUTH)->getColumn());
+    CHECK(bottomLeft->getRow() == sut.cellNeighbour(cells, width, height, topLeft->getColumn(), topLeft->getRow(), Mazegen::SOUTH)->getRow());
+    CHECK(topRight->getColumn() == sut.cellNeighbour(cells, width, height, topLeft->getColumn(), topLeft->getRow(), Mazegen::EAST)->getColumn());
+    CHECK(topRight->getRow() == sut.cellNeighbour(cells, width, height, topLeft->getColumn(), topLeft->getRow(), Mazegen::EAST)->getRow());
+    CHECK(topLeft->getColumn() == sut.cellNeighbour(cells, width, height, topRight->getColumn(), topRight->getRow(), Mazegen::WEST)->getColumn());
+    CHECK(topLeft->getRow() == sut.cellNeighbour(cells, width, height, topRight->getColumn(), topRight->getRow(), Mazegen::WEST)->getRow());
+  }
+  TEST_CASE("cellNeighbour returns NULL when out of bounds") {
+    Mazegen sut;
+    int width = 1;
+    int height = 1;
+    Cell cells[width*height];
+    sut.prepMaze(cells, width, height);
+
+    Cell* cell = &(cells[0]);
+
+    CHECK(sut.cellNeighbour(cells, width, height, cell->getColumn(), cell->getRow(), Mazegen::NORTH) == (Cell*)NULL);
+    CHECK(sut.cellNeighbour(cells, width, height, cell->getColumn(), cell->getRow(), Mazegen::SOUTH) == (Cell*)NULL);
+    CHECK(sut.cellNeighbour(cells, width, height, cell->getColumn(), cell->getRow(), Mazegen::EAST) == (Cell*)NULL);
+    CHECK(sut.cellNeighbour(cells, width, height, cell->getColumn(), cell->getRow(), Mazegen::WEST) == (Cell*)NULL);
+  }
 }
