@@ -4,6 +4,7 @@
 #include "actions.h"
 #include "levels.h"
 #include "maze.h"
+#include "maze_generation/mazegen.h"
 
 int main() {
   const char* title = "MazePlusPlus by Liam Humphreys";
@@ -14,8 +15,10 @@ int main() {
   ConsoleDisplay view;
   Input input;
   Action action;
-  Maze maze(Levels::one, 5, 5);
+  Maze maze(Levels::one, 10, 10);
   view.openGameWindow(gameWindowWidth, gameWindowHeight, title);
+  Mazegen genner;
+  genner.gen(10, 10);
 
   int originX = (gameWindowWidth / 2) - (maze.width / 2);
   int originY = (gameWindowHeight / 2) - (maze.height / 2);
