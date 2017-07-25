@@ -98,4 +98,44 @@ TEST_SUITE("Mazegen") {
     CHECK(sut.isDirAvailable(cells, width, height, topLeft->getColumn(), topLeft->getRow(), Mazegen::EAST) == true);
     CHECK(sut.isDirAvailable(cells, width, height, topRight->getColumn(), topRight->getRow(), Mazegen::WEST) == true);
   }
+  TEST_CASE("forgePath removes correct walls from both cells in vertical forge") {
+    Mazegen sut;
+    int width = 1;
+    int height = 2;
+    Cell cells[width*height];
+    sut.prepMaze(cells, width, height);
+
+    Cell* topLeft = &(cells[0]);
+    Cell* bottomLeft = &(cells[1]);
+
+    sut.forgePath(cells, bottomLeft->getColumn(), bottomLeft->getRow(), width, height, Mazegen::NORTH);
+    CHECK((bottomLeft->getWalls() & Mazegen::NORTH) != Mazegen::NORTH);
+    CHECK((bottomLeft->getWalls() & Mazegen::SOUTH) == Mazegen::SOUTH);
+    CHECK((bottomLeft->getWalls() & Mazegen::EAST) == Mazegen::EAST);
+    CHECK((bottomLeft->getWalls() & Mazegen::WEST) == Mazegen::WEST);
+    CHECK((topLeft->getWalls() & Mazegen::SOUTH) != Mazegen::SOUTH);
+    CHECK((topLeft->getWalls() & Mazegen::NORTH) == Mazegen::NORTH);
+    CHECK((topLeft->getWalls() & Mazegen::EAST) == Mazegen::EAST);
+    CHECK((topLeft->getWalls() & Mazegen::WEST) == Mazegen::WEST);
+  }
+  TEST_CASE("forgePath removes correct walls from both cells in horizontal forge") {
+    Mazegen sut;
+    int width = 2;
+    int height = 1;
+    Cell cells[width*height];
+    sut.prepMaze(cells, width, height);
+
+    Cell* topLeft = &(cells[0]);
+    Cell* topRight = &(cells[1]);
+
+    sut.forgePath(cells, topLeft->getColumn(), topLeft->getRow(), width, height, Mazegen::EAST);
+    CHECK((topLeft->getWalls() & Mazegen::NORTH) == Mazegen::NORTH);
+    CHECK((topLeft->getWalls() & Mazegen::SOUTH) == Mazegen::SOUTH);
+    CHECK((topLeft->getWalls() & Mazegen::EAST) != Mazegen::EAST);
+    CHECK((topLeft->getWalls() & Mazegen::WEST) == Mazegen::WEST);
+    CHECK((topRight->getWalls() & Mazegen::SOUTH) == Mazegen::SOUTH);
+    CHECK((topRight->getWalls() & Mazegen::NORTH) == Mazegen::NORTH);
+    CHECK((topRight->getWalls() & Mazegen::EAST) == Mazegen::EAST);
+    CHECK((topRight->getWalls() & Mazegen::WEST) != Mazegen::WEST);
+  }
 }
