@@ -17,6 +17,27 @@ void Mazegen::prepMaze(Cell* cells, int width, int height) {
   }
 }
 
+void Mazegen::genMaze(Cell* cells, int width, int height) {
+  vector<Cell> trail;
+  trail.push_back(cells[locate(1, 1, width)]);
+  vector<DIR> availableDirs;
+  while(!trail.empty()) {
+    availableDirs.clear();
+    Cell* current = &(trail.back());
+
+    setAvailableDirs(availableDirs, cells, current->X, current->Y, width, height);
+
+    if(!availableDirs.empty()) {
+      int randDir = availableDirs[rand() % availableDirs.size()];
+      Cell* p = forgePath(cells, current->X, current->Y, width, height, randDir);
+      trail.push_back(*p);
+    }
+    else {
+      trail.pop_back();
+    }
+  }
+}
+
 Cell* Mazegen::cellNeighbour(Cell* cells, int width, int height, int x, int y, int dir) const {
   switch (dir) {
     case NORTH: return y > 0        ? &(cells[locate(x, y-1, width)]) : NULL;
@@ -61,38 +82,19 @@ void Mazegen::gen(int width, int height) {
   srand(time(NULL));
 
   Cell maze[height*width];
-  vector<Cell> trail;
-  vector<DIR> availableDirs;
 
   prepMaze(maze, width, height);
-
-  trail.push_back(maze[locate(1, 1, width)]);
-
-  while(!trail.empty()) {
-    availableDirs.clear();
-    Cell* current = &(trail.back());
-
-    setAvailableDirs(availableDirs, maze, current->X, current->Y, width, height);
-
-    if(!availableDirs.empty()) {
-      int randDir = availableDirs[rand() % availableDirs.size()];
-      Cell* p = forgePath(maze, current->X, current->Y, width, height, randDir);
-      trail.push_back(*p);
-    }
-    else {
-      trail.pop_back();
-    }
-  }
+  genMaze(maze, width, height);
 
   int r, c;
-  for (c=0; c<width; c++) {
-    if (c == 0) cout << " _";
-    else cout << "__";
-  }
+  // for (c=0; c<width; c++) {
+  //   if (c == 0) cout << " _";
+  //   else cout << "__";
+  // }
   cout << '\n';
   for (r=0; r<height; r++) {
     for (c=0; c<width; c++) {
-      cout << maze[c+r*width];
+      cout << maze[locate(c, r, width)];
     }
     cout << "|\n";
   }

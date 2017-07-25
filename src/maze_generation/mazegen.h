@@ -11,6 +11,7 @@ public :
   inline int locate(int x, int y, int width) const { return x+y*width; };
   void gen(int width, int height);
   void prepMaze(Cell* cells, int width, int height);
+  void genMaze(Cell* cells, int width, int height);
   Cell* cellNeighbour(Cell* cells, int width, int height, int x, int y, int dir) const;
   bool isDirAvailable(Cell* cells, int width, int height, int x, int y, int dir) const;
   Cell* forgePath(Cell* cells, int x, int y, int width, int height, int dir);

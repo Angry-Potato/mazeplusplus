@@ -180,4 +180,21 @@ TEST_SUITE("Mazegen") {
     CHECK((std::find(availableDirs.begin(), availableDirs.end(), Mazegen::EAST) != availableDirs.end()) != true);
     CHECK((std::find(availableDirs.begin(), availableDirs.end(), Mazegen::SOUTH) != availableDirs.end()) == true);
   }
+  TEST_CASE("genMaze sets wall props of all cells correctly (no rooms!)") {
+    Mazegen sut;
+    int width = 10;
+    int height = 10;
+    Cell cells[height*width];
+
+    sut.prepMaze(cells, width, height);
+    sut.genMaze(cells, width, height);
+
+    for (int y = 0; y < height; y++) {
+      for (int x = 0; x < width; x++) {
+        CHECK(cells[x+y*width].X == x);
+        CHECK(cells[x+y*width].Y == y);
+        CHECK((cells[x+y*width].getWalls() & Cell::WALL_ALL) != Cell::WALL_ALL);
+      }
+    }
+  }
 }
