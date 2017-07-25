@@ -15,8 +15,8 @@ TEST_SUITE("Mazegen") {
 
     for (int y = 0; y < height; y++) {
       for (int x = 0; x < width; x++) {
-        CHECK(cells[x+y*width].getColumn() == x);
-        CHECK(cells[x+y*width].getRow() == y);
+        CHECK(cells[x+y*width].X == x);
+        CHECK(cells[x+y*width].Y == y);
       }
     }
   }
@@ -46,14 +46,14 @@ TEST_SUITE("Mazegen") {
     Cell* bottomLeft = &(cells[2]);
     Cell* bottomRight = &(cells[3]);
 
-    CHECK(topLeft->getColumn() == sut.cellNeighbour(cells, width, height, bottomLeft->getColumn(), bottomLeft->getRow(), Mazegen::NORTH)->getColumn());
-    CHECK(topLeft->getRow() == sut.cellNeighbour(cells, width, height, bottomLeft->getColumn(), bottomLeft->getRow(), Mazegen::NORTH)->getRow());
-    CHECK(bottomLeft->getColumn() == sut.cellNeighbour(cells, width, height, topLeft->getColumn(), topLeft->getRow(), Mazegen::SOUTH)->getColumn());
-    CHECK(bottomLeft->getRow() == sut.cellNeighbour(cells, width, height, topLeft->getColumn(), topLeft->getRow(), Mazegen::SOUTH)->getRow());
-    CHECK(topRight->getColumn() == sut.cellNeighbour(cells, width, height, topLeft->getColumn(), topLeft->getRow(), Mazegen::EAST)->getColumn());
-    CHECK(topRight->getRow() == sut.cellNeighbour(cells, width, height, topLeft->getColumn(), topLeft->getRow(), Mazegen::EAST)->getRow());
-    CHECK(topLeft->getColumn() == sut.cellNeighbour(cells, width, height, topRight->getColumn(), topRight->getRow(), Mazegen::WEST)->getColumn());
-    CHECK(topLeft->getRow() == sut.cellNeighbour(cells, width, height, topRight->getColumn(), topRight->getRow(), Mazegen::WEST)->getRow());
+    CHECK(topLeft->X == sut.cellNeighbour(cells, width, height, bottomLeft->X, bottomLeft->Y, Mazegen::NORTH)->X);
+    CHECK(topLeft->Y == sut.cellNeighbour(cells, width, height, bottomLeft->X, bottomLeft->Y, Mazegen::NORTH)->Y);
+    CHECK(bottomLeft->X == sut.cellNeighbour(cells, width, height, topLeft->X, topLeft->Y, Mazegen::SOUTH)->X);
+    CHECK(bottomLeft->Y == sut.cellNeighbour(cells, width, height, topLeft->X, topLeft->Y, Mazegen::SOUTH)->Y);
+    CHECK(topRight->X == sut.cellNeighbour(cells, width, height, topLeft->X, topLeft->Y, Mazegen::EAST)->X);
+    CHECK(topRight->Y == sut.cellNeighbour(cells, width, height, topLeft->X, topLeft->Y, Mazegen::EAST)->Y);
+    CHECK(topLeft->X == sut.cellNeighbour(cells, width, height, topRight->X, topRight->Y, Mazegen::WEST)->X);
+    CHECK(topLeft->Y == sut.cellNeighbour(cells, width, height, topRight->X, topRight->Y, Mazegen::WEST)->Y);
   }
   TEST_CASE("cellNeighbour returns NULL when out of bounds") {
     Mazegen sut;
@@ -64,10 +64,10 @@ TEST_SUITE("Mazegen") {
 
     Cell* cell = &(cells[0]);
 
-    CHECK(sut.cellNeighbour(cells, width, height, cell->getColumn(), cell->getRow(), Mazegen::NORTH) == (Cell*)NULL);
-    CHECK(sut.cellNeighbour(cells, width, height, cell->getColumn(), cell->getRow(), Mazegen::SOUTH) == (Cell*)NULL);
-    CHECK(sut.cellNeighbour(cells, width, height, cell->getColumn(), cell->getRow(), Mazegen::EAST) == (Cell*)NULL);
-    CHECK(sut.cellNeighbour(cells, width, height, cell->getColumn(), cell->getRow(), Mazegen::WEST) == (Cell*)NULL);
+    CHECK(sut.cellNeighbour(cells, width, height, cell->X, cell->Y, Mazegen::NORTH) == (Cell*)NULL);
+    CHECK(sut.cellNeighbour(cells, width, height, cell->X, cell->Y, Mazegen::SOUTH) == (Cell*)NULL);
+    CHECK(sut.cellNeighbour(cells, width, height, cell->X, cell->Y, Mazegen::EAST) == (Cell*)NULL);
+    CHECK(sut.cellNeighbour(cells, width, height, cell->X, cell->Y, Mazegen::WEST) == (Cell*)NULL);
   }
   TEST_CASE("isDirAvailable returns false when out of bounds") {
     Mazegen sut;
@@ -78,10 +78,10 @@ TEST_SUITE("Mazegen") {
 
     Cell* cell = &(cells[0]);
 
-    CHECK(sut.isDirAvailable(cells, width, height, cell->getColumn(), cell->getRow(), Mazegen::NORTH) == false);
-    CHECK(sut.isDirAvailable(cells, width, height, cell->getColumn(), cell->getRow(), Mazegen::SOUTH) == false);
-    CHECK(sut.isDirAvailable(cells, width, height, cell->getColumn(), cell->getRow(), Mazegen::EAST) == false);
-    CHECK(sut.isDirAvailable(cells, width, height, cell->getColumn(), cell->getRow(), Mazegen::WEST) == false);
+    CHECK(sut.isDirAvailable(cells, width, height, cell->X, cell->Y, Mazegen::NORTH) == false);
+    CHECK(sut.isDirAvailable(cells, width, height, cell->X, cell->Y, Mazegen::SOUTH) == false);
+    CHECK(sut.isDirAvailable(cells, width, height, cell->X, cell->Y, Mazegen::EAST) == false);
+    CHECK(sut.isDirAvailable(cells, width, height, cell->X, cell->Y, Mazegen::WEST) == false);
   }
   TEST_CASE("isDirAvailable returns true when dir available") {
     Mazegen sut;
@@ -95,10 +95,10 @@ TEST_SUITE("Mazegen") {
     Cell* bottomLeft = &(cells[2]);
     Cell* bottomRight = &(cells[3]);
 
-    CHECK(sut.isDirAvailable(cells, width, height, bottomLeft->getColumn(), bottomLeft->getRow(), Mazegen::NORTH) == true);
-    CHECK(sut.isDirAvailable(cells, width, height, topLeft->getColumn(), topLeft->getRow(), Mazegen::SOUTH) == true);
-    CHECK(sut.isDirAvailable(cells, width, height, topLeft->getColumn(), topLeft->getRow(), Mazegen::EAST) == true);
-    CHECK(sut.isDirAvailable(cells, width, height, topRight->getColumn(), topRight->getRow(), Mazegen::WEST) == true);
+    CHECK(sut.isDirAvailable(cells, width, height, bottomLeft->X, bottomLeft->Y, Mazegen::NORTH) == true);
+    CHECK(sut.isDirAvailable(cells, width, height, topLeft->X, topLeft->Y, Mazegen::SOUTH) == true);
+    CHECK(sut.isDirAvailable(cells, width, height, topLeft->X, topLeft->Y, Mazegen::EAST) == true);
+    CHECK(sut.isDirAvailable(cells, width, height, topRight->X, topRight->Y, Mazegen::WEST) == true);
   }
   TEST_CASE("isDirAvailable returns false when dir not available") {
     Mazegen sut;
@@ -112,13 +112,13 @@ TEST_SUITE("Mazegen") {
     Cell* bottomLeft = &(cells[2]);
     Cell* bottomRight = &(cells[3]);
 
-    sut.forgePath(cells, bottomLeft->getColumn(), bottomLeft->getRow(), width, height, Mazegen::NORTH);
-    sut.forgePath(cells, bottomRight->getColumn(), bottomRight->getRow(), width, height, Mazegen::NORTH);
+    sut.forgePath(cells, bottomLeft->X, bottomLeft->Y, width, height, Mazegen::NORTH);
+    sut.forgePath(cells, bottomRight->X, bottomRight->Y, width, height, Mazegen::NORTH);
 
-    CHECK(sut.isDirAvailable(cells, width, height, bottomLeft->getColumn(), bottomLeft->getRow(), Mazegen::NORTH) == false);
-    CHECK(sut.isDirAvailable(cells, width, height, topLeft->getColumn(), topLeft->getRow(), Mazegen::SOUTH) == false);
-    CHECK(sut.isDirAvailable(cells, width, height, topLeft->getColumn(), topLeft->getRow(), Mazegen::EAST) == false);
-    CHECK(sut.isDirAvailable(cells, width, height, topRight->getColumn(), topRight->getRow(), Mazegen::WEST) == false);
+    CHECK(sut.isDirAvailable(cells, width, height, bottomLeft->X, bottomLeft->Y, Mazegen::NORTH) == false);
+    CHECK(sut.isDirAvailable(cells, width, height, topLeft->X, topLeft->Y, Mazegen::SOUTH) == false);
+    CHECK(sut.isDirAvailable(cells, width, height, topLeft->X, topLeft->Y, Mazegen::EAST) == false);
+    CHECK(sut.isDirAvailable(cells, width, height, topRight->X, topRight->Y, Mazegen::WEST) == false);
   }
   TEST_CASE("forgePath removes correct walls from both cells in vertical forge") {
     Mazegen sut;
@@ -130,7 +130,7 @@ TEST_SUITE("Mazegen") {
     Cell* topLeft = &(cells[0]);
     Cell* bottomLeft = &(cells[1]);
 
-    sut.forgePath(cells, bottomLeft->getColumn(), bottomLeft->getRow(), width, height, Mazegen::NORTH);
+    sut.forgePath(cells, bottomLeft->X, bottomLeft->Y, width, height, Mazegen::NORTH);
     CHECK((bottomLeft->getWalls() & Mazegen::NORTH) != Mazegen::NORTH);
     CHECK((bottomLeft->getWalls() & Mazegen::SOUTH) == Mazegen::SOUTH);
     CHECK((bottomLeft->getWalls() & Mazegen::EAST) == Mazegen::EAST);
@@ -150,7 +150,7 @@ TEST_SUITE("Mazegen") {
     Cell* topLeft = &(cells[0]);
     Cell* topRight = &(cells[1]);
 
-    sut.forgePath(cells, topLeft->getColumn(), topLeft->getRow(), width, height, Mazegen::EAST);
+    sut.forgePath(cells, topLeft->X, topLeft->Y, width, height, Mazegen::EAST);
     CHECK((topLeft->getWalls() & Mazegen::NORTH) == Mazegen::NORTH);
     CHECK((topLeft->getWalls() & Mazegen::SOUTH) == Mazegen::SOUTH);
     CHECK((topLeft->getWalls() & Mazegen::EAST) != Mazegen::EAST);
@@ -172,10 +172,10 @@ TEST_SUITE("Mazegen") {
     Cell* bottomLeft = &(cells[2]);
     Cell* bottomRight = &(cells[3]);
 
-    sut.forgePath(cells, topLeft->getColumn(), topLeft->getRow(), width, height, Mazegen::EAST);
+    sut.forgePath(cells, topLeft->X, topLeft->Y, width, height, Mazegen::EAST);
 
     std::vector<Mazegen::DIR> availableDirs;
-    sut.setAvailableDirs(availableDirs, cells, topLeft->getColumn(), topLeft->getRow(), width, height);
+    sut.setAvailableDirs(availableDirs, cells, topLeft->X, topLeft->Y, width, height);
 
     CHECK((std::find(availableDirs.begin(), availableDirs.end(), Mazegen::EAST) != availableDirs.end()) != true);
     CHECK((std::find(availableDirs.begin(), availableDirs.end(), Mazegen::SOUTH) != availableDirs.end()) == true);

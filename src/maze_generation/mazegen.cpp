@@ -70,8 +70,8 @@ void Mazegen::gen(int width, int height) {
 
   while(!trail.empty()) {
     availableDirs.clear();
-    int curX = trail.back().getColumn();
-    int curY = trail.back().getRow();
+    int curX = trail.back().X;
+    int curY = trail.back().Y;
 
     setAvailableDirs(availableDirs, maze, curX, curY, width, height);
 
