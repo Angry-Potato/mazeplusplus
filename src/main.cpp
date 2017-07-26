@@ -6,6 +6,7 @@
 #include "maze_generation/cell.h"
 #include "maze_generation/mazegen.h"
 #include "maze_generation/tiled_grid_factory.h"
+#include "maze_generation/tiled_maze_factory.h"
 
 #include <iostream>
 
@@ -41,14 +42,14 @@ int main() {
     cout << "|\n";
   }
 
-  TiledGridFactory tgf;
+  TiledMazeFactory tmf;
   int tilesPerCellX = 5;
   int tilesPerCellY = 5;
-  int tileCount = tgf.tileCountForMazeOfSize(width, height, tilesPerCellX, tilesPerCellY);
-  int tilesWide = tgf.tileCountForCellDimension(width, tilesPerCellX);
-  int tilesTall = tgf.tileCountForCellDimension(height, tilesPerCellY);
+  int tileCount = TiledGridFactory::tileCountForMazeOfSize(width, height, tilesPerCellX, tilesPerCellY);
+  int tilesWide = TiledGridFactory::tileCountForCellDimension(width, tilesPerCellX);
+  int tilesTall = TiledGridFactory::tileCountForCellDimension(height, tilesPerCellY);
   int tileData[tileCount];
-  tgf.generate(width, height, tileData, tilesPerCellX, tilesPerCellY);
+  tmf.generate(width, height, tileData, tilesPerCellX, tilesPerCellY);
   Maze maze(tileData, tilesWide, tilesTall);
 
 

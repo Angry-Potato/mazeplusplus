@@ -3,13 +3,13 @@
 
 class TiledGridFactory {
 public :
-  inline int tileCountForCellDimension(int dimension, int tilesPerCell) const {
+  static inline int tileCountForCellDimension(int dimension, int tilesPerCell) {
     return ((dimension * tilesPerCell ) - (dimension - 1));
   };
-  inline int tileCountForMazeOfSize(int width, int height, int tilesPerCellX, int tilesPerCellY) const {
+  static inline int tileCountForMazeOfSize(int width, int height, int tilesPerCellX, int tilesPerCellY) {
     return tileCountForCellDimension(width, tilesPerCellX)*tileCountForCellDimension(height, tilesPerCellY);
   };
-  inline int locateTile(int tileX, int tileY, int cellX, int cellY, int mazeWidthInTiles, int tilesPerCellX, int tilesPerCellY) const {
+  static inline int locateTile(int tileX, int tileY, int cellX, int cellY, int mazeWidthInTiles, int tilesPerCellX, int tilesPerCellY) {
     return ((tilesPerCellX-1)*cellX+tileX) + (((tilesPerCellY-1)*cellY+tileY)*mazeWidthInTiles);
   };
   inline int isCornerTile(int tileX, int tileY, int tilesPerCellX, int tilesPerCellY) const {

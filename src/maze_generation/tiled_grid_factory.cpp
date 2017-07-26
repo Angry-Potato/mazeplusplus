@@ -1,13 +1,7 @@
 #include "tiled_grid_factory.h"
-#include "cell.h"
-#include "mazegen.h"
 #include "../tile.h"
 
 void TiledGridFactory::generate(int cellsWide, int cellsTall, int* tileData, int tilesPerCellX, int tilesPerCellY) const {
-  Mazegen mazeGen;
-  Cell cells[cellsWide*cellsTall];
-  mazeGen.generate(cellsWide, cellsTall, cells);
-    // Cell* cell = &(cells[x+y*cellsWide]);
   spawnFreeTiles(cellsWide, cellsTall, tileData, tilesPerCellX, tilesPerCellY);
   spawnWalls(cellsWide, cellsTall, tileData, tilesPerCellX, tilesPerCellY);
   spawnJunctions(cellsWide, cellsTall, tileData, tilesPerCellX, tilesPerCellY);
