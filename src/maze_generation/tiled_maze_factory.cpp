@@ -10,6 +10,7 @@ void TiledMazeFactory::generate(int cellsWide, int cellsTall, int* tileData, int
     // Cell* cell = &(cells[x+y*cellsWide]);
   spawnFreeTiles(cellsWide, cellsTall, tileData, tilesPerCellX, tilesPerCellY);
   spawnWalls(cellsWide, cellsTall, tileData, tilesPerCellX, tilesPerCellY);
+  spawnJunctions(cellsWide, cellsTall, tileData, tilesPerCellX, tilesPerCellY);
   spawnOuterCorners(cellsWide, cellsTall, tileData, tilesPerCellX, tilesPerCellY);
 }
 
@@ -37,6 +38,32 @@ void TiledMazeFactory::spawnWalls(int cellsWide, int cellsTall, int* tileData, i
           }
           else if (isEdgeTile(ty, tilesPerCellY)) {
             tileData[locateTile(tx, ty, x, y, tilesWide, tilesPerCellX, tilesPerCellY)] = Tile::HORIZONTAL_WALL;
+          }
+        }
+      }
+    }
+  }
+}
+
+void TiledMazeFactory::spawnJunctions(int cellsWide, int cellsTall, int* tileData, int tilesPerCellX, int tilesPerCellY) const {
+  int tilesWide = tileCountForCellDimension(cellsWide, tilesPerCellX);
+  for (int y = 0; y < cellsTall; y++) {
+    for (int x = 0; x < cellsWide; x++) {
+      for (int ty = 0; ty < tilesPerCellY; ty++) {
+        for (int tx = 0; tx < tilesPerCellX; tx++) {
+          if (isOuterCornerTile(tx, ty, x, y, tilesPerCellX, tilesPerCellY, cellsWide, cellsTall)) {
+            continue;
+          }
+          if (isCornerTile(tx, ty, tilesPerCellX, tilesPerCellY)) {
+            if (isOuterEdgeTile(tx, x, tilesPerCellX, cellsWide)) {
+              tileData[locateTile(tx, ty, x, y, tilesWide, tilesPerCellX, tilesPerCellY)] = tx == 0 ? Tile::RIGHT_T_JUNCTION : Tile::LEFT_T_JUNCTION;
+            }
+            else if (isOuterEdgeTile(ty, y, tilesPerCellY, cellsTall)) {
+              tileData[locateTile(tx, ty, x, y, tilesWide, tilesPerCellX, tilesPerCellY)] = ty == 0 ? Tile::T_JUNCTION : Tile::INVERTED_T_JUNCTION;
+            }
+            else {
+              tileData[locateTile(tx, ty, x, y, tilesWide, tilesPerCellX, tilesPerCellY)] = Tile::CROSSROADS;
+            }
           }
         }
       }

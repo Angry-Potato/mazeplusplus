@@ -131,4 +131,39 @@ TEST_SUITE("TiledMazeFactory") {
     CHECK(tileData[sut.locateTile(0, tilesPerCellY-1, 0, cellsTall-1, tilesWide, tilesPerCellX, tilesPerCellY)] == Tile::BOTTOM_LEFT_CORNER);
     CHECK(tileData[sut.locateTile(tilesPerCellX-1, tilesPerCellY-1, cellsWide-1, cellsTall-1, tilesWide, tilesPerCellX, tilesPerCellY)] == Tile::BOTTOM_RIGHT_CORNER);
   }
+  TEST_CASE("spawnJunctions sets junctions for entire maze") {
+    TiledMazeFactory sut;
+    int cellsWide = 5;
+    int cellsTall = 5;
+    int tilesPerCellX = 6;
+    int tilesPerCellY = 6;
+    int tileCount = sut.tileCountForMazeOfSize(cellsWide, cellsTall, tilesPerCellX, tilesPerCellY);
+    int tilesWide = sut.tileCountForCellDimension(cellsWide, tilesPerCellX);
+    int tileData[tileCount];
+
+    sut.spawnJunctions(cellsWide, cellsTall, tileData, tilesPerCellX, tilesPerCellY);
+
+    for (int y = 0; y < cellsTall; y++) {
+      for (int x = 0; x < cellsWide; x++) {
+        for (int ty = 0; ty < tilesPerCellY; ty++) {
+          for (int tx = 0; tx < tilesPerCellX; tx++) {
+            if (sut.isOuterCornerTile(tx, ty, x, y, tilesPerCellX, tilesPerCellY, cellsWide, cellsTall)) {
+              continue;
+            }
+            if (sut.isCornerTile(tx, ty, tilesPerCellX, tilesPerCellY)) {
+              if (sut.isOuterEdgeTile(tx, x, tilesPerCellX, cellsWide)) {
+                CHECK(tileData[sut.locateTile(tx, ty, x, y, tilesWide, tilesPerCellX, tilesPerCellY)] == (tx == 0 ? Tile::RIGHT_T_JUNCTION : Tile::LEFT_T_JUNCTION));
+              }
+              else if (sut.isOuterEdgeTile(ty, y, tilesPerCellY, cellsTall)) {
+                CHECK(tileData[sut.locateTile(tx, ty, x, y, tilesWide, tilesPerCellX, tilesPerCellY)] == (ty == 0 ? Tile::T_JUNCTION : Tile::INVERTED_T_JUNCTION));
+              }
+              else {
+                CHECK(tileData[sut.locateTile(tx, ty, x, y, tilesWide, tilesPerCellX, tilesPerCellY)] == Tile::CROSSROADS);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
