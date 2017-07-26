@@ -1,9 +1,9 @@
-#include "tiled_maze_factory.h"
+#include "tiled_grid_factory.h"
 #include "cell.h"
 #include "mazegen.h"
 #include "../tile.h"
 
-void TiledMazeFactory::generate(int cellsWide, int cellsTall, int* tileData, int tilesPerCellX, int tilesPerCellY) const {
+void TiledGridFactory::generate(int cellsWide, int cellsTall, int* tileData, int tilesPerCellX, int tilesPerCellY) const {
   Mazegen mazeGen;
   Cell cells[cellsWide*cellsTall];
   mazeGen.generate(cellsWide, cellsTall, cells);
@@ -14,7 +14,7 @@ void TiledMazeFactory::generate(int cellsWide, int cellsTall, int* tileData, int
   spawnOuterCorners(cellsWide, cellsTall, tileData, tilesPerCellX, tilesPerCellY);
 }
 
-void TiledMazeFactory::spawnFreeTiles(int cellsWide, int cellsTall, int* tileData, int tilesPerCellX, int tilesPerCellY) const {
+void TiledGridFactory::spawnFreeTiles(int cellsWide, int cellsTall, int* tileData, int tilesPerCellX, int tilesPerCellY) const {
   int tilesWide = tileCountForCellDimension(cellsWide, tilesPerCellX);
   for (int y = 0; y < cellsTall; y++) {
     for (int x = 0; x < cellsWide; x++) {
@@ -27,7 +27,7 @@ void TiledMazeFactory::spawnFreeTiles(int cellsWide, int cellsTall, int* tileDat
   }
 }
 
-void TiledMazeFactory::spawnWalls(int cellsWide, int cellsTall, int* tileData, int tilesPerCellX, int tilesPerCellY) const {
+void TiledGridFactory::spawnWalls(int cellsWide, int cellsTall, int* tileData, int tilesPerCellX, int tilesPerCellY) const {
   int tilesWide = tileCountForCellDimension(cellsWide, tilesPerCellX);
   for (int y = 0; y < cellsTall; y++) {
     for (int x = 0; x < cellsWide; x++) {
@@ -45,7 +45,7 @@ void TiledMazeFactory::spawnWalls(int cellsWide, int cellsTall, int* tileData, i
   }
 }
 
-void TiledMazeFactory::spawnJunctions(int cellsWide, int cellsTall, int* tileData, int tilesPerCellX, int tilesPerCellY) const {
+void TiledGridFactory::spawnJunctions(int cellsWide, int cellsTall, int* tileData, int tilesPerCellX, int tilesPerCellY) const {
   int tilesWide = tileCountForCellDimension(cellsWide, tilesPerCellX);
   for (int y = 0; y < cellsTall; y++) {
     for (int x = 0; x < cellsWide; x++) {
@@ -71,7 +71,7 @@ void TiledMazeFactory::spawnJunctions(int cellsWide, int cellsTall, int* tileDat
   }
 }
 
-void TiledMazeFactory::spawnOuterCorners(int cellsWide, int cellsTall, int* tileData, int tilesPerCellX, int tilesPerCellY) const {
+void TiledGridFactory::spawnOuterCorners(int cellsWide, int cellsTall, int* tileData, int tilesPerCellX, int tilesPerCellY) const {
   int tilesWide = tileCountForCellDimension(cellsWide, tilesPerCellX);
   tileData[locateTile(0, 0, 0, 0, tilesWide, tilesPerCellX, tilesPerCellY)] = Tile::TOP_LEFT_CORNER;
   tileData[locateTile(tilesPerCellX-1, 0, cellsWide-1, 0, tilesWide, tilesPerCellX, tilesPerCellY)] = Tile::TOP_RIGHT_CORNER;

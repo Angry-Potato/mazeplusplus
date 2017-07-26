@@ -1,7 +1,7 @@
-#ifndef TILED_MAZE_FACTORY_H
-#define TILED_MAZE_FACTORY_H
+#ifndef TILED_GRID_FACTORY_H
+#define TILED_GRID_FACTORY_H
 
-class TiledMazeFactory {
+class TiledGridFactory {
 public :
   inline int tileCountForCellDimension(int dimension, int tilesPerCell) const {
     return ((dimension * tilesPerCell ) - (dimension - 1));
