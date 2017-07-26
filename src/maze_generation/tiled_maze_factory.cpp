@@ -3,42 +3,51 @@
 #include "mazegen.h"
 #include "../tile.h"
 
-void TiledMazeFactory::generate(int cellsWide, int cellsTall, int* tileData, int tilesPerCellX, int tilesPerCellY) {
+void TiledMazeFactory::generate(int cellsWide, int cellsTall, int* tileData, int tilesPerCellX, int tilesPerCellY) const {
   Mazegen mazeGen;
   Cell cells[cellsWide*cellsTall];
   mazeGen.generate(cellsWide, cellsTall, cells);
-  int tilesWide = tileCountForCellDimension(cellsWide, tilesPerCellX);
+    // Cell* cell = &(cells[x+y*cellsWide]);
+  spawnFreeTiles(cellsWide, cellsTall, tileData, tilesPerCellX, tilesPerCellY);
+  spawnWalls(cellsWide, cellsTall, tileData, tilesPerCellX, tilesPerCellY);
+  spawnOuterCorners(cellsWide, cellsTall, tileData, tilesPerCellX, tilesPerCellY);
+}
 
+void TiledMazeFactory::spawnFreeTiles(int cellsWide, int cellsTall, int* tileData, int tilesPerCellX, int tilesPerCellY) const {
+  int tilesWide = tileCountForCellDimension(cellsWide, tilesPerCellX);
   for (int y = 0; y < cellsTall; y++) {
     for (int x = 0; x < cellsWide; x++) {
-      Cell* cell = &(cells[x+y*cellsWide]);
-
       for (int ty = 0; ty < tilesPerCellY; ty++) {
         for (int tx = 0; tx < tilesPerCellX; tx++) {
-          int tileLoc = locateTile(tx, ty, x, y, tilesWide, tilesPerCellX, tilesPerCellY);
+          tileData[locateTile(tx, ty, x, y, tilesWide, tilesPerCellX, tilesPerCellY)] = Tile::FREE;
+        }
+      }
+    }
+  }
+}
 
-          if (!isEdgeTile(tx, ty, tilesPerCellX, tilesPerCellY)) {
-            tileData[tileLoc] = Tile::FREE;
+void TiledMazeFactory::spawnWalls(int cellsWide, int cellsTall, int* tileData, int tilesPerCellX, int tilesPerCellY) const {
+  int tilesWide = tileCountForCellDimension(cellsWide, tilesPerCellX);
+  for (int y = 0; y < cellsTall; y++) {
+    for (int x = 0; x < cellsWide; x++) {
+      for (int ty = 0; ty < tilesPerCellY; ty++) {
+        for (int tx = 0; tx < tilesPerCellX; tx++) {
+          if (isEdgeTile(tx, tilesPerCellX)) {
+            tileData[locateTile(tx, ty, x, y, tilesWide, tilesPerCellX, tilesPerCellY)] = Tile::VERTICAL_WALL;
           }
-          else {
-            if (x == 0 && y == 0 && tx == 0 && ty == 0) {
-              tileData[tileLoc] = Tile::TOP_LEFT_CORNER;
-            }
-            else if (x == cellsWide-1 && y == 0 && tx == tilesPerCellX-1 && ty == 0) {
-              tileData[tileLoc] = Tile::TOP_RIGHT_CORNER;
-            }
-            else if (x == 0 && y == cellsTall-1 && tx == 0 && ty == tilesPerCellY-1) {
-              tileData[tileLoc] = Tile::BOTTOM_LEFT_CORNER;
-            }
-            else if (x == cellsWide-1 && y == cellsTall-1 && tx == tilesPerCellX-1 && ty == tilesPerCellY-1) {
-              tileData[tileLoc] = Tile::BOTTOM_RIGHT_CORNER;
-            }
-            else {
-              tileData[tileLoc] = Tile::FREE;
-            }
+          else if (isEdgeTile(ty, tilesPerCellY)) {
+            tileData[locateTile(tx, ty, x, y, tilesWide, tilesPerCellX, tilesPerCellY)] = Tile::HORIZONTAL_WALL;
           }
         }
       }
     }
   }
+}
+
+void TiledMazeFactory::spawnOuterCorners(int cellsWide, int cellsTall, int* tileData, int tilesPerCellX, int tilesPerCellY) const {
+  int tilesWide = tileCountForCellDimension(cellsWide, tilesPerCellX);
+  tileData[locateTile(0, 0, 0, 0, tilesWide, tilesPerCellX, tilesPerCellY)] = Tile::TOP_LEFT_CORNER;
+  tileData[locateTile(tilesPerCellX-1, 0, cellsWide-1, 0, tilesWide, tilesPerCellX, tilesPerCellY)] = Tile::TOP_RIGHT_CORNER;
+  tileData[locateTile(0, tilesPerCellY-1, 0, cellsTall-1, tilesWide, tilesPerCellX, tilesPerCellY)] = Tile::BOTTOM_LEFT_CORNER;
+  tileData[locateTile(tilesPerCellX-1, tilesPerCellY-1, cellsWide-1, cellsTall-1, tilesWide, tilesPerCellX, tilesPerCellY)] = Tile::BOTTOM_RIGHT_CORNER;
 }

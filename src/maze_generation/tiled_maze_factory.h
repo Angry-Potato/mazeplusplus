@@ -12,10 +12,16 @@ public :
   inline int locateTile(int tileX, int tileY, int cellX, int cellY, int mazeWidthInTiles, int tilesPerCellX, int tilesPerCellY) const {
     return ((tilesPerCellX-1)*cellX+tileX) + (((tilesPerCellY-1)*cellY+tileY)*mazeWidthInTiles);
   };
-  inline bool isEdgeTile(int tileX, int tileY, int tilesPerCellX, int tilesPerCellY) const {
-    return (tileX % (tilesPerCellX-1) == 0) || (tileY % (tilesPerCellY-1) == 0);
+  inline int isCornerTile(int tileX, int tileY, int tilesPerCellX, int tilesPerCellY) const {
+    return isEdgeTile(tileX, tilesPerCellX) && isEdgeTile(tileY, tilesPerCellY);
+  };
+  inline bool isEdgeTile(int coordinateOnAxis, int tilesPerCellAlongSameAxis) const {
+    return coordinateOnAxis % (tilesPerCellAlongSameAxis-1) == 0;
   };
 
-  void generate(int width, int height, int* tileData, int tilesPerCellX, int tilesPerCellY);
+  void generate(int width, int height, int* tileData, int tilesPerCellX, int tilesPerCellY) const;
+  void spawnFreeTiles(int width, int height, int* tileData, int tilesPerCellX, int tilesPerCellY) const;
+  void spawnWalls(int width, int height, int* tileData, int tilesPerCellX, int tilesPerCellY) const;
+  void spawnOuterCorners(int width, int height, int* tileData, int tilesPerCellX, int tilesPerCellY) const;
 };
 #endif
