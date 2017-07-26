@@ -23,8 +23,8 @@ int main() {
   view.openGameWindow(gameWindowWidth, gameWindowHeight, title);
 
   Mazegen genner;
-  int width = 20;
-  int height = 20;
+  int width = 5;
+  int height = 5;
   Cell cells[width*height];
   genner.generate(width, height, cells);
 
@@ -42,11 +42,13 @@ int main() {
   }
 
   TiledMazeFactory tmf;
-  int tileCount = tmf.tileCountForMazeOfSize(width, height);
-  int tilesWide = tmf.tileCountForCellDimension(width);
-  int tilesTall = tmf.tileCountForCellDimension(height);
+  int tilesPerCellX = 3;
+  int tilesPerCellY = 3;
+  int tileCount = tmf.tileCountForMazeOfSize(width, height, tilesPerCellX, tilesPerCellY);
+  int tilesWide = tmf.tileCountForCellDimension(width, tilesPerCellX);
+  int tilesTall = tmf.tileCountForCellDimension(height, tilesPerCellY);
   int tileData[tileCount];
-  tmf.generate(width, height, tileData);
+  tmf.generate(width, height, tileData, tilesPerCellX, tilesPerCellY);
   Maze maze(tileData, tilesWide, tilesTall);
 
 
