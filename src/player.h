@@ -16,5 +16,20 @@ struct Player {
     delete position;
     delete previousPosition;
   }
+
+  inline void updatePosition() {
+    previousPosition->X = position->X;
+    previousPosition->Y = position->Y;
+  };
+  inline void returnToPreviousPosition() {
+    position->X = previousPosition->X;
+    position->Y = previousPosition->Y;
+  };
+  Point velocity() {
+    Point v;
+    v.X = position->X - previousPosition->X;
+    v.Y = position->Y - previousPosition->Y;
+    return v;
+  }
 };
 #endif

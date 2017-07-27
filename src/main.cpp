@@ -3,14 +3,11 @@
 #include "player.h"
 #include "actions.h"
 #include "maze.h"
+#include "physics.h"
 #include "maze_generation/cell.h"
 #include "maze_generation/mazegen.h"
 #include "maze_generation/tiled_grid_factory.h"
 #include "maze_generation/tiled_maze_factory.h"
-
-#include <iostream>
-
-using std::cout;
 
 int main() {
   const char* title = "MazePlusPlus by Liam Humphreys";
@@ -23,10 +20,10 @@ int main() {
   Actions::Action action;
   view.openGameWindow(gameWindowWidth, gameWindowHeight, title);
 
-  int width = 2;
-  int height = 2;
-  int tilesPerCellX = 3;
-  int tilesPerCellY = 3;
+  int width = 5;
+  int height = 5;
+  int tilesPerCellX = 6;
+  int tilesPerCellY = 6;
   int tileCount = TiledGridFactory::tileCountForMazeOfSize(width, height, tilesPerCellX, tilesPerCellY);
   int tilesWide = TiledGridFactory::tileCountForCellDimension(width, tilesPerCellX);
   int tilesTall = TiledGridFactory::tileCountForCellDimension(height, tilesPerCellY);
@@ -34,12 +31,13 @@ int main() {
   TiledMazeFactory tmf;
   tmf.generate(width, height, tileData, tilesPerCellX, tilesPerCellY);
   Maze maze(tileData, tilesWide, tilesTall);
-
+  Physics physics;
   int originX = (gameWindowWidth / 2) - (maze.width / 2);
   int originY = (gameWindowHeight / 2) - (maze.height / 2);
   do {
     action = (Actions::Action)input.fetchInput();
     actions.perform(action, &player);
+    physics.updatePlayer(&player, &maze);
     view.beginRenderLoop();
     for (int x=0; x < maze.width; x++) {
       for (int y=0; y < maze.height; y++) {
