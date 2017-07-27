@@ -9,11 +9,11 @@ struct ActionMap{
     static map<int, Point> create_map()
         {
           map<int, Point> m;
-          m[NONE] = Point(0, 0);
-          m[MOVE_UP] = Point(0, -1);
-          m[MOVE_DOWN] = Point(0, 1);
-          m[MOVE_LEFT] = Point(-1, 0);
-          m[MOVE_RIGHT] = Point(1, 0);
+          m[Actions::NONE] = Point(0, 0);
+          m[Actions::MOVE_UP] = Point(0, -1);
+          m[Actions::MOVE_DOWN] = Point(0, 1);
+          m[Actions::MOVE_LEFT] = Point(-1, 0);
+          m[Actions::MOVE_RIGHT] = Point(1, 0);
           return m;
         }
     static map<int, Point> actions;

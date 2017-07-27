@@ -5,7 +5,7 @@
 TEST_SUITE("Actions") {
   TEST_CASE("MOVE_UP moves the player up") {
     Actions sut;
-    Action move_up = MOVE_UP;
+    Actions::Action move_up = Actions::MOVE_UP;
     int initialX = 0;
     int initialY = 0;
     Player player(initialX, initialY);
@@ -17,7 +17,7 @@ TEST_SUITE("Actions") {
   }
   TEST_CASE("MOVE_DOWN moves the player down") {
     Actions sut;
-    Action move_down = MOVE_DOWN;
+    Actions::Action move_down = Actions::MOVE_DOWN;
     int initialX = 0;
     int initialY = 0;
     Player player(initialX, initialY);
@@ -29,7 +29,7 @@ TEST_SUITE("Actions") {
   }
   TEST_CASE("MOVE_LEFT moves the player left") {
     Actions sut;
-    Action move_left = MOVE_LEFT;
+    Actions::Action move_left = Actions::MOVE_LEFT;
     int initialX = 0;
     int initialY = 0;
     Player player(initialX, initialY);
@@ -41,7 +41,7 @@ TEST_SUITE("Actions") {
   }
   TEST_CASE("MOVE_RIGHT moves the player right") {
     Actions sut;
-    Action move_right = MOVE_RIGHT;
+    Actions::Action move_right = Actions::MOVE_RIGHT;
     int initialX = 0;
     int initialY = 0;
     Player player(initialX, initialY);

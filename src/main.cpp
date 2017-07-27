@@ -20,7 +20,7 @@ int main() {
   Actions actions;
   ConsoleDisplay view;
   Input input;
-  Action action;
+  Actions::Action action;
   view.openGameWindow(gameWindowWidth, gameWindowHeight, title);
 
   int width = 25;
@@ -38,7 +38,7 @@ int main() {
   int originX = (gameWindowWidth / 2) - (maze.width / 2);
   int originY = (gameWindowHeight / 2) - (maze.height / 2);
   do {
-    action = input.fetchInput();
+    action = (Actions::Action)input.fetchInput();
     actions.perform(action, &player);
     view.beginRenderLoop();
     for (int x=0; x < maze.width; x++) {
@@ -48,7 +48,7 @@ int main() {
     }
     view.renderPlayer(player.id, player.position->X + originX, player.position->Y + originY);
     view.endRenderLoop();
-  } while (action != EXIT && !view.isClosed());
+  } while (action != Actions::EXIT && !view.isClosed());
 
   return 0;
 }
