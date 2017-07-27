@@ -64,6 +64,7 @@ TEST_SUITE("TiledGridFactory") {
     CHECK(sut.locateTile(2, 0, 0, 0, tilesWide, tilesPerCellX, tilesPerCellY) == 2);
     CHECK(sut.locateTile(0, 1, 0, 0, tilesWide, tilesPerCellX, tilesPerCellY) == 7);
     CHECK(sut.locateTile(0, 2, 0, 0, tilesWide, tilesPerCellX, tilesPerCellY) == 14);
+    CHECK(sut.locateTile(0, -1, 0, 1, tilesWide, tilesPerCellX, tilesPerCellY) == 7);
     CHECK(sut.locateTile(0, 0, 0, 1, tilesWide, tilesPerCellX, tilesPerCellY) == 14);
     CHECK(sut.locateTile(0, 0, 1, 0, tilesWide, tilesPerCellX, tilesPerCellY) == 2);
     CHECK(sut.locateTile(1, 0, 1, 0, tilesWide, tilesPerCellX, tilesPerCellY) == 3);

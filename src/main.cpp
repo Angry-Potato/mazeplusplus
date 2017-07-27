@@ -24,8 +24,8 @@ int main() {
   view.openGameWindow(gameWindowWidth, gameWindowHeight, title);
 
   Mazegen genner;
-  int width = 14;
-  int height = 14;
+  int width = 20;
+  int height = 20;
   Cell cells[width*height];
   genner.generate(width, height, cells);
 
@@ -43,8 +43,8 @@ int main() {
   }
 
   TiledMazeFactory tmf;
-  int tilesPerCellX = 5;
-  int tilesPerCellY = 5;
+  int tilesPerCellX = 3;
+  int tilesPerCellY = 3;
   int tileCount = TiledGridFactory::tileCountForMazeOfSize(width, height, tilesPerCellX, tilesPerCellY);
   int tilesWide = TiledGridFactory::tileCountForCellDimension(width, tilesPerCellX);
   int tilesTall = TiledGridFactory::tileCountForCellDimension(height, tilesPerCellY);

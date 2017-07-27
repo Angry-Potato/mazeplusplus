@@ -12,19 +12,19 @@ public :
   static inline int locateTile(int tileX, int tileY, int cellX, int cellY, int mazeWidthInTiles, int tilesPerCellX, int tilesPerCellY) {
     return ((tilesPerCellX-1)*cellX+tileX) + (((tilesPerCellY-1)*cellY+tileY)*mazeWidthInTiles);
   };
-  inline int isCornerTile(int tileX, int tileY, int tilesPerCellX, int tilesPerCellY) const {
+  static inline int isCornerTile(int tileX, int tileY, int tilesPerCellX, int tilesPerCellY) {
     return isEdgeTile(tileX, tilesPerCellX) && isEdgeTile(tileY, tilesPerCellY);
   };
-  inline int isOuterCornerTile(int tx, int ty, int x, int y, int tilesPerCellX, int tilesPerCellY, int cellsWide, int cellsTall) const {
+  static inline int isOuterCornerTile(int tx, int ty, int x, int y, int tilesPerCellX, int tilesPerCellY, int cellsWide, int cellsTall) {
     return  (tx == 0 && ty == 0 && x == 0 && y == 0) ||
             (tx == 0 && ty == tilesPerCellY-1 && x == 0 && y == cellsTall-1) ||
             (tx == tilesPerCellX-1 && ty == 0 && x == cellsWide-1 && y == 0) ||
             (tx == tilesPerCellX-1 && ty == tilesPerCellY-1 && x == cellsWide-1 && y == cellsTall-1);
   };
-  inline bool isEdgeTile(int coordinateOnAxis, int tilesPerCellAlongSameAxis) const {
+  static inline bool isEdgeTile(int coordinateOnAxis, int tilesPerCellAlongSameAxis) {
     return coordinateOnAxis % (tilesPerCellAlongSameAxis-1) == 0;
   };
-  inline bool isOuterEdgeTile(int tileCoordinateOnAxis, int cellCoordinateOnAxis, int tilesPerCellInDimension, int mazeDimensionInCells) const {
+  static inline bool isOuterEdgeTile(int tileCoordinateOnAxis, int cellCoordinateOnAxis, int tilesPerCellInDimension, int mazeDimensionInCells) {
     return  (tileCoordinateOnAxis == 0 && cellCoordinateOnAxis == 0) ||
             (tileCoordinateOnAxis == tilesPerCellInDimension-1 && cellCoordinateOnAxis == mazeDimensionInCells-1);
   };
