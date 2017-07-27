@@ -23,37 +23,17 @@ int main() {
   Action action;
   view.openGameWindow(gameWindowWidth, gameWindowHeight, title);
 
-  Mazegen genner;
-  int width = 20;
-  int height = 20;
-  Cell cells[width*height];
-  genner.generate(width, height, cells);
-
-  int r, c;
-  for (c=0; c<width; c++) {
-    if (c == 0) cout << " _";
-    else cout << "__";
-  }
-  cout << '\n';
-  for (r=0; r<height; r++) {
-    for (c=0; c<width; c++) {
-      cout << cells[c+r*width];
-    }
-    cout << "|\n";
-  }
-
-  TiledMazeFactory tmf;
-  int tilesPerCellX = 3;
-  int tilesPerCellY = 3;
+  int width = 25;
+  int height = 25;
+  int tilesPerCellX = 6;
+  int tilesPerCellY = 6;
   int tileCount = TiledGridFactory::tileCountForMazeOfSize(width, height, tilesPerCellX, tilesPerCellY);
   int tilesWide = TiledGridFactory::tileCountForCellDimension(width, tilesPerCellX);
   int tilesTall = TiledGridFactory::tileCountForCellDimension(height, tilesPerCellY);
   int tileData[tileCount];
+  TiledMazeFactory tmf;
   tmf.generate(width, height, tileData, tilesPerCellX, tilesPerCellY);
   Maze maze(tileData, tilesWide, tilesTall);
-
-
-
 
   int originX = (gameWindowWidth / 2) - (maze.width / 2);
   int originY = (gameWindowHeight / 2) - (maze.height / 2);
