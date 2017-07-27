@@ -25,3 +25,7 @@ bool Maze::isFree(int x, int y) const {
 int Maze::tile(int x, int y) const {
    return tiles[x+y*width].type;
 }
+
+int Maze::tile(Point* p) const {
+  return tile(p->X, p->Y);
+}
