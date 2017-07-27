@@ -23,5 +23,9 @@ struct Point {
     lhs.Y -= rhs.Y;
     return lhs;
   }
+
+  friend bool operator==(Point lhs, const Point& rhs) {
+    return lhs.X == rhs.X && lhs.Y == rhs.Y;
+  }
 };
 #endif

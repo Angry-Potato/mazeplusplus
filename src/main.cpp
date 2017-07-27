@@ -1,3 +1,4 @@
+#include <iostream>
 #include "console/console_display.h"
 #include "input.h"
 #include "player.h"
@@ -8,6 +9,7 @@
 #include "maze_generation/mazegen.h"
 #include "maze_generation/tiled_grid_factory.h"
 #include "maze_generation/tiled_maze_factory.h"
+#include "win_state.h"
 
 int main() {
   const char* title = "MazePlusPlus by Liam Humphreys";
@@ -35,6 +37,9 @@ int main() {
   int originX = (gameWindowWidth / 2) - (maze.width / 2);
   int originY = (gameWindowHeight / 2) - (maze.height / 2);
   do {
+    if (WinState::hasWon(&player, &maze)) {
+      std::cout << "winner!";
+    }
     action = (Actions::Action)input.fetchInput();
     actions.perform(action, &player);
     physics.updatePlayer(&player, &maze);

@@ -14,6 +14,7 @@ public :
   bool isFree(int x, int y) const;
   int tile(int x, int y) const;
   int tile(Point* p) const;
+  Point finishTile() const;
 
   Tile* tiles;
 };

@@ -29,3 +29,13 @@ int Maze::tile(int x, int y) const {
 int Maze::tile(Point* p) const {
   return tile(p->X, p->Y);
 }
+
+Point Maze::finishTile() const {
+  for (int y = 0; y < height; y++) {
+    for (int x = 0; x < width; x++) {
+      if (tiles[x+y*width].type == Tile::FINISH) {
+        return *(tiles[x+y*width].position);
+      }
+    }
+  }
+}
