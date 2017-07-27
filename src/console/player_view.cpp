@@ -11,8 +11,8 @@ int PlayerView::characterCode(int playerId) {
 
 TCODColor PlayerView::colour(int playerId) {
   switch (playerId) {
-    case 1: return TCODColor::lightBlue;
-    case 2: return TCODColor::lightGreen;
+    case 1: return TCODColor::turquoise;
+    case 2: return TCODColor::flame;
     default: return TCODColor::white;
   }
 }

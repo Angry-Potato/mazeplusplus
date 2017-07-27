@@ -22,7 +22,7 @@ void ConsoleDisplay::renderPlayer(int id, int x, int y) {
 
 void ConsoleDisplay::renderTile(int type, int x, int y) {
   TCODConsole::root->setChar(x, y, TileView::characterCode(type));
-  TCODConsole::root->setCharForeground(x, y, TCODColor::white);
+  TCODConsole::root->setCharForeground(x, y, TileView::colour(type));
 }
 
 void ConsoleDisplay::endRenderLoop() {

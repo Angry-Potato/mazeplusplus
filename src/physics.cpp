@@ -13,7 +13,9 @@ bool Physics::isCollision(Point* playerPos, Point* movement, Maze* maze) const {
     progression.X += progression.X != movement->X ? (playerPos->X < futurePos.X ? 1 : -1) : 0;
     progression.Y += progression.Y != movement->Y ? (playerPos->Y < futurePos.Y ? 1 : -1) : 0;
     Point pointOnPath = *playerPos + progression;
-    if (maze->tile(&pointOnPath) != Tile::FREE) {
+    if (maze->tile(&pointOnPath) != Tile::FREE &&
+        maze->tile(&pointOnPath) != Tile::PLAYER_SPAWN &&
+        maze->tile(&pointOnPath) != Tile::FINISH) {
       return true;
     }
 

@@ -7,6 +7,7 @@ public :
   void generate(int cellsWide, int cellsTall, int* tileData, int tilesPerCellX, int tilesPerCellY) const;
   void mapMazeCellsToGridTiles(Cell* cells, int cellsWide, int cellsTall, int* tileData, int tilesPerCellX, int tilesPerCellY) const;
   void tidyJunctions(int cellsWide, int cellsTall, int* tileData, int tilesPerCellX, int tilesPerCellY) const;
+  void placeSpawnAndFinish(int cellsWide, int cellsTall, int* tileData, int tilesPerCellX, int tilesPerCellY) const;
   bool isCrossRoads(int* tileData, int tx, int ty, int x, int y, int tilesWide, int cellsWide, int cellsTall, int tilesPerCellX, int tilesPerCellY) const;
   bool isTopLeftCorner(int* tileData, int tx, int ty, int x, int y, int tilesWide, int cellsWide, int cellsTall, int tilesPerCellX, int tilesPerCellY) const;
   bool isTopRightCorner(int* tileData, int tx, int ty, int x, int y, int tilesWide, int cellsWide, int cellsTall, int tilesPerCellX, int tilesPerCellY) const;

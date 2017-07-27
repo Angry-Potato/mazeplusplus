@@ -3,6 +3,11 @@
 #include "cell.h"
 #include "mazegen.h"
 #include "../tile.h"
+#include <vector>
+#include <stdlib.h>
+#include <algorithm>
+
+using std::vector;
 
 void TiledMazeFactory::generate(int cellsWide, int cellsTall, int* tileData, int tilesPerCellX, int tilesPerCellY) const {
   TiledGridFactory tiledGridFactory;
@@ -14,6 +19,7 @@ void TiledMazeFactory::generate(int cellsWide, int cellsTall, int* tileData, int
 
   mapMazeCellsToGridTiles(cells, cellsWide, cellsTall, tileData, tilesPerCellX, tilesPerCellY);
   tidyJunctions(cellsWide, cellsTall, tileData, tilesPerCellX, tilesPerCellY);
+  placeSpawnAndFinish(cellsWide, cellsTall, tileData, tilesPerCellX, tilesPerCellY);
 }
 
 void TiledMazeFactory::mapMazeCellsToGridTiles(Cell* cells, int cellsWide, int cellsTall, int* tileData, int tilesPerCellX, int tilesPerCellY) const {
@@ -32,6 +38,25 @@ void TiledMazeFactory::mapMazeCellsToGridTiles(Cell* cells, int cellsWide, int c
       }
     }
   }
+}
+
+void TiledMazeFactory::placeSpawnAndFinish(int cellsWide, int cellsTall, int* tileData, int tilesPerCellX, int tilesPerCellY) const {
+  int tilesWide = TiledGridFactory::tileCountForCellDimension(cellsWide, tilesPerCellX);
+  int topLeft = TiledGridFactory::locateTile(1, 1, 0, 0, tilesWide, tilesPerCellX, tilesPerCellY);
+  int topRight = TiledGridFactory::locateTile(tilesPerCellX-2, 1, cellsWide-1, 0, tilesWide, tilesPerCellX, tilesPerCellY);
+  int bottomLeft = TiledGridFactory::locateTile(1, tilesPerCellY-2, 0, cellsTall-1, tilesWide, tilesPerCellX, tilesPerCellY);
+  int bottomRight = TiledGridFactory::locateTile(tilesPerCellX-2, tilesPerCellY-2, cellsWide-1, cellsTall-1, tilesWide, tilesPerCellX, tilesPerCellY);
+
+  vector<int> corners;
+  corners.push_back(topLeft);
+  corners.push_back(topRight);
+  corners.push_back(bottomLeft);
+  corners.push_back(bottomRight);
+  int randCorner = corners[rand() % corners.size()];
+  tileData[randCorner] = Tile::PLAYER_SPAWN;
+  corners.erase(std::remove(corners.begin(), corners.end(), randCorner), corners.end());
+  randCorner = corners[rand() % corners.size()];
+  tileData[randCorner] = Tile::FINISH;
 }
 
 int TiledMazeFactory::tileNorth(int* tileData, int tx, int ty, int x, int y, int tilesWide, int tilesPerCellX, int tilesPerCellY) const {

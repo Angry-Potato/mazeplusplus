@@ -16,7 +16,9 @@ struct Tile {
     INVERTED_T_JUNCTION,
     LEFT_T_JUNCTION,
     RIGHT_T_JUNCTION,
-    CROSSROADS
+    CROSSROADS,
+    PLAYER_SPAWN,
+    FINISH
   };
 
   Point* position;

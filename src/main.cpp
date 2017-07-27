@@ -20,10 +20,10 @@ int main() {
   Actions::Action action;
   view.openGameWindow(gameWindowWidth, gameWindowHeight, title);
 
-  int width = 5;
-  int height = 5;
-  int tilesPerCellX = 6;
-  int tilesPerCellY = 6;
+  int width = 15;
+  int height = 15;
+  int tilesPerCellX = 3;
+  int tilesPerCellY = 3;
   int tileCount = TiledGridFactory::tileCountForMazeOfSize(width, height, tilesPerCellX, tilesPerCellY);
   int tilesWide = TiledGridFactory::tileCountForCellDimension(width, tilesPerCellX);
   int tilesTall = TiledGridFactory::tileCountForCellDimension(height, tilesPerCellY);
