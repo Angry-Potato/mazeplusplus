@@ -1,5 +1,6 @@
 #include <iostream>
 #include "console/console_display.h"
+#include "console/gui.h"
 #include "input.h"
 #include "player.h"
 #include "actions.h"
@@ -16,11 +17,25 @@ int main() {
   int gameWindowWidth = 200;
   int gameWindowHeight = 150;
   Player player(1, 1, 1);
+  int playerCount = 1;
+  Player players[playerCount];
+  players[0] = player;
+
   Actions actions;
   ConsoleDisplay view;
   Input input;
   Actions::Action action;
   view.openGameWindow(gameWindowWidth, gameWindowHeight, title);
+
+  Gui gui;
+  gui.clear();
+	gui.addItem(Gui::NEW_GAME,"New game");
+	gui.addItem(Gui::EXIT,"Exit");
+	Gui::MenuItemCode menuItem=gui.pick();
+	if ( menuItem == Gui::EXIT || menuItem == Gui::NONE ) {
+		// Exit or window closed
+		return 0;
+  }
 
   int width = 15;
   int height = 15;
@@ -36,6 +51,7 @@ int main() {
   Physics physics;
   int originX = (gameWindowWidth / 2) - (maze.width / 2);
   int originY = (gameWindowHeight / 2) - (maze.height / 2);
+  Point origin(originX, originY);
   do {
     if (WinState::hasWon(&player, &maze)) {
       std::cout << "winner!";
@@ -43,14 +59,7 @@ int main() {
     action = (Actions::Action)input.fetchInput();
     actions.perform(action, &player);
     physics.updatePlayer(&player, &maze);
-    view.beginRenderLoop();
-    for (int x=0; x < maze.width; x++) {
-      for (int y=0; y < maze.height; y++) {
-        view.renderTile(maze.tile(x, y), x + originX, y + originY);
-      }
-    }
-    view.renderPlayer(player.id, player.position->X + originX, player.position->Y + originY);
-    view.endRenderLoop();
+    view.render(players, &maze, playerCount, &origin);
   } while (action != Actions::EXIT && !view.isClosed());
 
   return 0;

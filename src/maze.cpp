@@ -38,4 +38,5 @@ Point Maze::finishTile() const {
       }
     }
   }
+  return *(tiles[1+1*width].position);
 }

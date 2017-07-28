@@ -2,6 +2,23 @@
 #include "console_display.h"
 #include "player_view.h"
 #include "tile_view.h"
+#include "../point.h"
+#include "../player.h"
+#include "../maze.h"
+
+void ConsoleDisplay::render(Player* players, Maze* maze, int playerCount, Point* origin) {
+  beginRenderLoop();
+  for (int x=0; x < maze->width; x++) {
+    for (int y=0; y < maze->height; y++) {
+      renderTile(maze->tile(x, y), x + origin->X, y + origin->Y);
+    }
+  }
+
+  for (int i = 0; i < playerCount; i++) {
+    renderPlayer(players[i].id, players[i].position->X + origin->X, players[i].position->Y + origin->Y);
+  }
+  endRenderLoop();
+}
 
 void ConsoleDisplay::openGameWindow(int width, int height, const char* title) {
   TCODConsole::initRoot(width, height, title, false);
