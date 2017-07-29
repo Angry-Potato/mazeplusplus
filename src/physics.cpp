@@ -3,6 +3,7 @@
 #include "maze.h"
 #include "tile.h"
 #include "player.h"
+#include <iostream>
 
 bool Physics::isCollision(Point* playerPos, Point* movement, Maze* maze) const {
   Point futurePos = *playerPos + *movement;
@@ -24,12 +25,15 @@ bool Physics::isCollision(Point* playerPos, Point* movement, Maze* maze) const {
   return false;
 }
 
-void Physics::updatePlayer(Player* player, Maze* maze) const {
-  Point movement = player->velocity();
-  if (isCollision(player->previousPosition, &movement, maze)) {
-    player->returnToPreviousPosition();
-  }
-  else {
-    player->updatePosition();
+void Physics::updatePlayer(Player* players, Maze* maze, int playerCount) const {
+  for (int i = 0; i < playerCount; i++) {
+    Point movement = players[i].velocity();
+    if (isCollision(players[i].previousPosition, &movement, maze)) {
+      players[i].returnToPreviousPosition();
+    }
+    else {
+    // std::cout << "playerpos: " << players[i].position->X << ", " << players[i].position->Y << std::endl;
+      players[i].updatePosition();
+    }
   }
 }

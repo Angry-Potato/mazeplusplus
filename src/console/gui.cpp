@@ -7,25 +7,32 @@ Gui::~Gui() {
 
 void Gui::clear() {
   items.clearAndDelete();
+  TCODConsole::root->clear();
+  TCODConsole::flush();
 }
 
-void Gui::addItem(MenuItemCode code, const char *label) {
+void Gui::addItem(int id, const char *label, bool selectable) {
   MenuItem *item=new MenuItem();
-  item->code=code;
+  item->id=id;
   item->label=label;
+  item->selectable=selectable;
   items.push(item);
 }
 
-Gui::MenuItemCode Gui::pick() {
+int Gui::pick() {
   // static TCODImage img("menu_background1.png");
-  int selectedItem=0;
-  while( !TCODConsole::isWindowClosed() ) {
+  int selectedItem = 0;
+  while (!TCODConsole::isWindowClosed()) {
     // img.blit2x(TCODConsole::root,0,0);
-    int currentItem=0;
-    for (MenuItem **it=items.begin(); it!=items.end(); it++) {
-      if ( currentItem == selectedItem ) {
+    int currentItem = 0;
+    for (MenuItem **it = items.begin(); it != items.end(); it++) {
+      if (!items.get(currentItem)->selectable) {
+        TCODConsole::root->setDefaultForeground(TCODColor::white);
+      }
+      else if (currentItem == selectedItem) {
         TCODConsole::root->setDefaultForeground(TCODColor::lighterOrange);
-      } else {
+      }
+      else {
         TCODConsole::root->setDefaultForeground(TCODColor::lightGrey);
       }
       TCODConsole::root->print(10,10+currentItem*3,(*it)->label);
@@ -47,9 +54,9 @@ Gui::MenuItemCode Gui::pick() {
         selectedItem = (selectedItem + 1) % items.size();
       break;
       case TCODK_ENTER :
-        return items.get(selectedItem)->code;
+        return items.get(selectedItem)->id;
       default : break;
     }
   }
-  return NONE;
+  return -1;
 }

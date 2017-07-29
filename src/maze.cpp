@@ -40,3 +40,14 @@ Point Maze::finishTile() const {
   }
   return *(tiles[1+1*width].position);
 }
+
+Point Maze::playerSpawnTile() const {
+  for (int y = 0; y < height; y++) {
+    for (int x = 0; x < width; x++) {
+      if (tiles[x+y*width].type == Tile::PLAYER_SPAWN) {
+        return *(tiles[x+y*width].position);
+      }
+    }
+  }
+  return *(tiles[1+1*width].position);
+}

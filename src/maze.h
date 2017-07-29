@@ -15,6 +15,7 @@ public :
   int tile(int x, int y) const;
   int tile(Point* p) const;
   Point finishTile() const;
+  Point playerSpawnTile() const;
 
   Tile* tiles;
 };

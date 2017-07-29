@@ -10,7 +10,8 @@ public :
     MOVE_DOWN,
     MOVE_LEFT,
     MOVE_RIGHT,
-    EXIT
+    EXIT,
+    PAUSE
   };
 
   void perform(Action action, Player* player) const;

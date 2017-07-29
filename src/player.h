@@ -17,6 +17,12 @@ struct Player {
     delete previousPosition;
   }
 
+  inline void setPosition(Point p) {
+    position->X = p.X;
+    position->Y = p.Y;
+    updatePosition();
+  }
+
   inline void updatePosition() {
     previousPosition->X = position->X;
     previousPosition->Y = position->Y;

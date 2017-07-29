@@ -2,25 +2,20 @@
 #define GUI_H
 
 #include "libtcod.hpp"
+#include "../igui.h"
 
-class Gui {
+class Gui : public IGui {
 public :
-  enum MenuItemCode {
-    NONE,
-    NEW_GAME,
-    CONTINUE,
-    EXIT
-  };
-
   struct MenuItem {
-    MenuItemCode code;
+    int id;
     const char *label;
+    bool selectable;
   };
 
   ~Gui();
   void clear();
-  void addItem(MenuItemCode code, const char *label);
-  MenuItemCode pick();
+  void addItem(int id, const char *label, bool selectable = true);
+  int pick();
   protected :
   TCODList<MenuItem *> items;
 };

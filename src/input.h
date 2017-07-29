@@ -3,6 +3,10 @@
 
 class Input {
 public :
-  int fetchInput();
+  void gameMode();
+  void menuMode();
+  int fetchInput(int* inputs);
+  int player1Input(int vk, char c);
+  int player2Input(int vk, char c);
 };
 #endif

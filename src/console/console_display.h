@@ -6,7 +6,7 @@
 class Player;
 class ConsoleDisplay : public IDisplay {
 public :
-  void render(Player* players, Maze* maze, int playerCount, Point* origin);
+  void render(Player* players, int playerCount, Maze* maze, Point* origin);
   bool isClosed() const;
   void openGameWindow(int width, int height, const char* title);
   void beginRenderLoop();

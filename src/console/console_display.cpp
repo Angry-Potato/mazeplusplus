@@ -6,7 +6,7 @@
 #include "../player.h"
 #include "../maze.h"
 
-void ConsoleDisplay::render(Player* players, Maze* maze, int playerCount, Point* origin) {
+void ConsoleDisplay::render(Player* players, int playerCount, Maze* maze, Point* origin) {
   beginRenderLoop();
   for (int x=0; x < maze->width; x++) {
     for (int y=0; y < maze->height; y++) {
