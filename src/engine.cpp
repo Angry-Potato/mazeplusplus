@@ -7,7 +7,7 @@
 #include "maze_generation/tiled_grid_factory.h"
 #include "physics.h"
 #include "actions.h"
-#include "input.h"
+#include "iinput.h"
 #include "win_state.h"
 #include <iostream>
 #include <sstream>
@@ -175,17 +175,16 @@ int Engine::winnerFound(Player* players, Maze* maze, int playerCountChoice) {
   return -1;
 }
 
-int Engine::run(int gameWindowWidth, int gameWindowHeight, const char* title, IDisplay* view, IGui* gui) {
+int Engine::run(int gameWindowWidth, int gameWindowHeight, const char* title, IDisplay* view, IGui* gui, IInput* input) {
   Player players[2];
   view->openGameWindow(gameWindowWidth, gameWindowHeight, title);
   Point origin;
   Physics physics;
   int action = 0;
   Actions actions;
-  Input input;
   int inputs[2];
   int playerCountChoice = 1;
-  input.menuMode();
+  input->menuMode();
   while (true) {
     switch ((State)state) {
       case MAIN_MENU: {
@@ -212,29 +211,29 @@ int Engine::run(int gameWindowWidth, int gameWindowHeight, const char* title, ID
         }
         std::cout << "player1pos: " << players[0].position->X << ", " << players[0].position->Y << std::endl;
         std::cout << "player2pos: " << players[1].position->X << ", " << players[1].position->Y << std::endl;
-        input.gameMode();
+        input->gameMode();
         state = RUNNING_GAME;
         break;
       }
       case RUNNING_GAME: {
         origin.X = (gameWindowWidth / 2) - (maze->width / 2);
         origin.Y = (gameWindowHeight / 2) - (maze->height / 2);
-        action = input.fetchInput(inputs);
+        action = input->fetchInput(inputs);
         for (int i = 0; i < playerCountChoice; i++) {
           actions.perform((Actions::Action)inputs[i], &(players[i]));
         }
-        physics.updatePlayer(players, maze, playerCountChoice);
+        physics.updatePlayers(players, maze, playerCountChoice);
         view->render(players, playerCountChoice, maze, &origin);
         if (action == Actions::PAUSE) {
-          input.menuMode();
+          input->menuMode();
           state = PAUSE_MENU;
         }
         if (winnerFound(players, maze, playerCountChoice) != -1) {
-          input.menuMode();
+          input->menuMode();
           state = FINISH;
         }
         if (action == Actions::EXIT || view->isClosed()) {
-          input.menuMode();
+          input->menuMode();
           state = EXIT;
         }
         break;
@@ -253,23 +252,23 @@ int Engine::run(int gameWindowWidth, int gameWindowHeight, const char* title, ID
       case PAUSE_MENU: {
         int pauseMenuChoice = pauseMenu(gui);
         if (pauseMenuChoice == 1) {
-          input.gameMode();
+          input->gameMode();
           state = RUNNING_GAME;
         }
         else if (pauseMenuChoice == 2) {
-          input.menuMode();
+          input->menuMode();
           state = INITIALISING_GAME;
         }
         else if (pauseMenuChoice == 3) {
           if (playerCountChoice < 2) {
             playerCountChoice++;
             addPlayer(players, 2);
-            input.gameMode();
+            input->gameMode();
             state = RUNNING_GAME;
           }
         }
         else {
-          input.menuMode();
+          input->menuMode();
           state = EXIT;
         }
         break;

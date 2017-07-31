@@ -25,7 +25,7 @@ bool Physics::isCollision(Point* playerPos, Point* movement, Maze* maze) const {
   return false;
 }
 
-void Physics::updatePlayer(Player* players, Maze* maze, int playerCount) const {
+void Physics::updatePlayers(Player* players, Maze* maze, int playerCount) const {
   for (int i = 0; i < playerCount; i++) {
     Point movement = players[i].velocity();
     if (isCollision(players[i].previousPosition, &movement, maze)) {

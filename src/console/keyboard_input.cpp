@@ -1,16 +1,16 @@
-#include "input.h"
-#include "actions.h"
+#include "keyboard_input.h"
+#include "../actions.h"
 #include "libtcod.hpp"
 #include <iostream>
 
-void Input::gameMode() {
+void KeyboardInput::gameMode() {
   TCODConsole::setKeyboardRepeat(1, 100);
 }
-void Input::menuMode() {
+void KeyboardInput::menuMode() {
   TCODConsole::setKeyboardRepeat(200, 100);
 }
 
-int Input::fetchInput(int* inputs) {
+int KeyboardInput::fetchInput(int* inputs) {
   TCOD_key_t key;
   TCODSystem::checkForEvent(TCOD_EVENT_KEY_PRESS, &key, NULL);
 
@@ -27,7 +27,7 @@ int Input::fetchInput(int* inputs) {
   return Actions::NONE;
 };
 
-int Input::player1Input(int vk, char c) {
+int KeyboardInput::player1Input(int vk, char c) {
   switch(vk) {
     case TCODK_UP:
       return Actions::MOVE_UP;
@@ -46,7 +46,7 @@ int Input::player1Input(int vk, char c) {
   }
 }
 
-int Input::player2Input(int vk, char c) {
+int KeyboardInput::player2Input(int vk, char c) {
   switch(vk) {
     case TCODK_CHAR:
       switch (c) {

@@ -1,5 +1,6 @@
 #ifndef IGUI_H
 #define IGUI_H
+
 class IGui {
 public :
   virtual void clear() = 0;

@@ -5,6 +5,7 @@ class IDisplay;
 class IGui;
 class Maze;
 class Player;
+class IInput;
 class Engine {
 public :
   enum State {
@@ -39,7 +40,7 @@ public :
   Maze* maze;
   Engine();
   ~Engine();
-  int run(int gameWindowWidth, int gameWindowHeight, const char* title, IDisplay* view, IGui* gui);
+  int run(int gameWindowWidth, int gameWindowHeight, const char* title, IDisplay* view, IGui* gui, IInput* input);
   void addPlayer(Player* players, int id);
   int winnerFound(Player* players, Maze* maze, int playerCountChoice);
   int mainMenu(IGui* gui);
