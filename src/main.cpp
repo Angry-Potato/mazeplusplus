@@ -1,4 +1,3 @@
-#include <iostream>
 #include "console/console_display.h"
 #include "console/gui.h"
 #include "console/keyboard_input.h"

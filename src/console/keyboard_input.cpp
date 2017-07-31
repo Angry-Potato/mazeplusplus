@@ -1,7 +1,6 @@
 #include "keyboard_input.h"
 #include "../actions.h"
 #include "libtcod.hpp"
-#include <iostream>
 
 void KeyboardInput::gameMode() {
   TCODConsole::setKeyboardRepeat(1, 100);

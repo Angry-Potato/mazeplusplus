@@ -3,7 +3,6 @@
 #include "maze.h"
 #include "tile.h"
 #include "player.h"
-#include <iostream>
 
 bool Physics::isCollision(Point* playerPos, Point* movement, Maze* maze) const {
   Point futurePos = *playerPos + *movement;
@@ -32,7 +31,6 @@ void Physics::updatePlayers(Player* players, Maze* maze, int playerCount) const 
       players[i].returnToPreviousPosition();
     }
     else {
-    // std::cout << "playerpos: " << players[i].position->X << ", " << players[i].position->Y << std::endl;
       players[i].updatePosition();
     }
   }

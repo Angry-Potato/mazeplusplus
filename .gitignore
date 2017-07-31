@@ -29,5 +29,4 @@
 *.exe
 *.out
 *.app
-bin/*
 !bin/.keep

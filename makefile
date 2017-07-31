@@ -16,9 +16,23 @@ else
 	CFLAGS=-g
 endif
 
+help :
+	@echo "Welcome to Mazeplusplus Makefile!"
+	@echo "Commands available are:"
+	@echo "make debug		# Compiles mazeplusplus to ./bin/mazepp, runs unit tests, then runs a clean"
+	@echo "make release		# Compiles mazeplusplus to ./bin/mazepp with compiler flags to optimise for executable size + speed, runs unit tests, then runs a clean"
+	@echo "make mazepp		# Compiles mazeplusplus to ./bin/mazepp, then runs unit tests"
+	@echo "make clean		# Removes all *.o files in the project"
+	@echo "make unit_test		# Compiles the test executable to ./bin/test_mazepp, then runs unit tests"
+	@echo "make dockermazepp	# Runs compilation and unit tests in a container, then copies executables out to ./bin/"
+	@echo "make dockerclean	# Removes the mazepp container"
+	@echo "make dockercp		# Copies executables out from the mazepp container, and into ./bin"
+	@echo "make dockerrun		# Runs given target in mazepp container (defaults to debug)"
+	@echo "make dockerbuild	# Builds the mazepp container"
+
 debug : mazepp clean
 
-release : mazepp
+release : mazepp clean
 
 mazepp : $(OBJS) unit_test
 	g++ $(OBJS) -o bin/mazepp -Wall $(LIBFLAGS) $(CFLAGS)

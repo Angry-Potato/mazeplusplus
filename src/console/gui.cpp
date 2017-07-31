@@ -20,10 +20,11 @@ void Gui::addItem(int id, const char *label, bool selectable) {
 }
 
 int Gui::pick() {
-  // static TCODImage img("menu_background1.png");
   int selectedItem = 0;
+  while(!items.get(selectedItem)->selectable) {
+    selectedItem++;
+  }
   while (!TCODConsole::isWindowClosed()) {
-    // img.blit2x(TCODConsole::root,0,0);
     int currentItem = 0;
     for (MenuItem **it = items.begin(); it != items.end(); it++) {
       if (!items.get(currentItem)->selectable) {
@@ -45,13 +46,17 @@ int Gui::pick() {
     TCODSystem::checkForEvent(TCOD_EVENT_KEY_PRESS,&key,NULL);
     switch (key.vk) {
       case TCODK_UP :
-        selectedItem--;
-        if (selectedItem < 0) {
-          selectedItem=items.size()-1;
-        }
+        do {
+          selectedItem--;
+          if (selectedItem < 0) {
+            selectedItem=items.size()-1;
+          }
+        } while(!items.get(selectedItem)->selectable);
       break;
       case TCODK_DOWN :
-        selectedItem = (selectedItem + 1) % items.size();
+        do {
+          selectedItem = (selectedItem + 1) % items.size();
+        } while(!items.get(selectedItem)->selectable);
       break;
       case TCODK_ENTER :
         return items.get(selectedItem)->id;

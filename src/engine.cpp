@@ -9,7 +9,6 @@
 #include "actions.h"
 #include "iinput.h"
 #include "win_state.h"
-#include <iostream>
 #include <sstream>
 
 Engine::Engine() {
@@ -26,7 +25,6 @@ Engine::~Engine() {
 
 void Engine::addPlayer(Player* players, int id) {
   Point spawn = maze->playerSpawnTile();
-  std::cout << spawn.X << ", " << spawn.Y << std::endl;
   players[id-1].id = id;
   players[id-1].setPosition(spawn);
 }
@@ -209,8 +207,6 @@ int Engine::run(int gameWindowWidth, int gameWindowHeight, const char* title, ID
           addPlayer(players, 1);
           addPlayer(players, 2);
         }
-        std::cout << "player1pos: " << players[0].position->X << ", " << players[0].position->Y << std::endl;
-        std::cout << "player2pos: " << players[1].position->X << ", " << players[1].position->Y << std::endl;
         input->gameMode();
         state = RUNNING_GAME;
         break;

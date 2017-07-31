@@ -1,9 +1,6 @@
 #ifndef __CELL_H_
 #define __CELL_H_
 
-#include <string>
-#include <iostream>
-
 class Cell {
 private:
     int walls;
@@ -24,7 +21,6 @@ public:
     inline bool hasWall(const int dir) const {
       return (walls & dir) == dir;
     };
-    friend std::ostream& operator<<(std::ostream& strm, const Cell& c);
 };
 
 #endif
