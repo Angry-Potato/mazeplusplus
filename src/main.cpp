@@ -12,8 +12,12 @@
 #include "maze_generation/tiled_maze_factory.h"
 #include "win_state.h"
 #include "engine.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 int main() {
+  srand (time(NULL));
   const char* title = "MazePlusPlus by Liam Humphreys";
   int gameWindowWidth = 200;
   int gameWindowHeight = 150;
